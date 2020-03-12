@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StateView">
+        <attr name="stateMode" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="alternate" value="1"/>
+        </attr>
+
+        <attr name="stateIcon" format="reference"/>
+
+        <attr name="stateTitle" format="string"/>
+        <attr name="stateTitleColor" format="color"/>
+        <attr name="stateTitleTextSize" format="dimension"/>
+        <attr name="stateTitleFontFilename" format="string" />
+
+        <attr name="stateDescription" format="string"/>
+        <attr name="stateDescriptionColor" format="color"/>
+        <attr name="stateDescriptionFontFilename" format="string" />
+
+        <attr name="stateGravity" format="enum">
+            <enum name="left" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="right" value="2"/>
+        </attr>
+
+        <attr name="stateActionButtonText" format="string" />
+        <attr name="stateActionButtonTextColor" format="color" />
+        <attr name="stateActionButtonColor" format="color" />
+        <attr name="stateActionButtonFontFilename" format="string" />
+
+        <!-- todo    <attr name="stateActionCornerRadius" format="dimension" /> -->
+
+        <attr name="stateMainProgressEnabled" format="boolean" />
+        <attr name="stateSmallProgressEnabled" format="boolean" />
+        <attr name="stateProgressStrokeColor" format="color" />
+        <attr name="stateProgressBackgroundColor" format="color" />
+
+
+    </declare-styleable>
+</resources>

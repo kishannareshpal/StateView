@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  Base StateView library theme  -->
+    <style name="StateViewTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#000000</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorAccent">#000000</item>
+
+        <item name="stateProgressBackgroundColor">#00000000</item>
+        <item name="stateProgressStrokeColor">#000000</item>
+        <item name="stateTitleColor">#000000</item>
+        <item name="stateTitleTextSize">24sp</item>
+        <item name="stateDescriptionColor">#3F3F3F</item>
+        <item name="stateActionButtonColor">#000000</item>
+        <item name="stateActionButtonTextColor">#FFFFFF</item>
+    </style>
+
+</resources>
