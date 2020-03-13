@@ -8,6 +8,7 @@
         <item name="colorPrimaryDark">#000000</item>
         <item name="colorAccent">#000000</item>
 
+        <item name="stateBackgroundColor">#FFFFFF</item>
         <item name="stateProgressBackgroundColor">#00000000</item>
         <item name="stateProgressStrokeColor">#000000</item>
         <item name="stateTitleColor">#000000</item>
