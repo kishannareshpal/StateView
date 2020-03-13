@@ -6,6 +6,8 @@
             <enum name="alternate" value="1"/>
         </attr>
 
+        <attr name="stateBackgroundColor" format="color" />
+
         <attr name="stateIcon" format="reference"/>
 
         <attr name="stateTitle" format="string"/>

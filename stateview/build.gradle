@@ -1,4 +1,21 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+
+def libVersion = '1.0'
+
+publish {
+    def groupProjectID = 'com.kishannareshpal'
+    def artifactProjectID = 'stateview'
+    def publishVersionID = libVersion
+
+    userOrg = 'kishannareshpal'
+    repoName = 'maven'
+    groupId = groupProjectID
+    artifactId = artifactProjectID
+    publishVersion = publishVersionID
+    desc = 'An alternate state control for views for Android. Can be used for showing that a RecyclerView has no data.'
+    website = 'https://github.com/' + groupProjectID + "/" + artifactProjectID
+}
 
 android {
     compileSdkVersion 29

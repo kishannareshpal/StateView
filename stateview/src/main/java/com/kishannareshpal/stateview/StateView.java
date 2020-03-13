@@ -19,8 +19,6 @@ import android.widget.TextView;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
-import androidx.annotation.Px;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 
 import com.bumptech.glide.Glide;
@@ -54,6 +52,7 @@ public class StateView extends LinearLayout {
     private @Nullable @DrawableRes Integer iconRes;
     private int stateChangeDelayInMillis = 0;
     private String title, description, actionButtonText;
+    private @ColorInt int backgroundColor;
     private @ColorInt int titleColor, descriptionColor;
     private @ColorInt int actionButtonColor, actionButtonTextColor;
     private AnimationType titleTextChangeAnimationType = AnimationType.NO_ANIMATION,
@@ -75,6 +74,17 @@ public class StateView extends LinearLayout {
 
 
     // Methods
+
+    /**
+     * Change the background color.
+     *
+     * @param backgroundColor the background color you want (use {@link androidx.core.content.ContextCompat#getColor(Context, int)}).
+     */
+    public StateView backgroundColor(@ColorInt int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+        changeBackgroundColor(backgroundColor);
+        return this;
+    }
 
     /**
      * Change the icon image.
@@ -109,7 +119,7 @@ public class StateView extends LinearLayout {
 
     /**
      * Change the stroke color of the indeterminate progress for both, main and small progress.
-     * @param progressStrokeColor the progress stroke color you want.
+     * @param progressStrokeColor the progress stroke color you want (use {@link androidx.core.content.ContextCompat#getColor(Context, int)}).
      */
     public StateView progressStrokeColor(@ColorInt int progressStrokeColor) {
         this.progressStrokeColor = progressStrokeColor;
@@ -119,7 +129,7 @@ public class StateView extends LinearLayout {
 
     /**
      * Change the background color of the indeterminate progress for both, main and small progress.
-     * @param progressBackgroundColor the progress background color you want.
+     * @param progressBackgroundColor the progress background color you want (use {@link androidx.core.content.ContextCompat#getColor(Context, int)}).
      */
     public StateView progressBackgroundColor(@ColorInt int progressBackgroundColor) {
         this.progressBackgroundColor = progressBackgroundColor;
@@ -299,7 +309,7 @@ public class StateView extends LinearLayout {
      */
     public StateView actionButtonFont(String fontFilename) {
         this.descriptionFontFilename = fontFilename;
-        actionButtonFont(fontFilename);
+        changeActionButtonFont(fontFilename);
         return this;
     }
 
@@ -365,8 +375,12 @@ public class StateView extends LinearLayout {
         if (attrs != null) {
             // get the attributes from the attrs.xml
             ta                            = getContext().obtainStyledAttributes(attrs, R.styleable.StateView);
+            this.backgroundColor          = ta.getColor(R.styleable.StateView_stateBackgroundColor, NO_VALUE);
+
             this.state                    = State.fromId(ta.getInt(R.styleable.StateView_stateMode, State.NORMAL.getId()));
             this.iconRes                  = ta.getResourceId(R.styleable.StateView_stateIcon, NO_VALUE);
+            if (this.iconRes == NO_VALUE) this.iconRes = null;
+
             this.mainProgressEnabled      = ta.getBoolean(R.styleable.StateView_stateMainProgressEnabled, false);
             this.smallProgressEnabled     = ta.getBoolean(R.styleable.StateView_stateSmallProgressEnabled, false);
             this.progressStrokeColor      = ta.getColor(R.styleable.StateView_stateProgressStrokeColor, NO_VALUE);
@@ -389,31 +403,32 @@ public class StateView extends LinearLayout {
             this.actionButtonColor        = ta.getColor(R.styleable.StateView_stateActionButtonColor, NO_VALUE);
         }
 
-        changeState(state, stateChangeDelayInMillis);
-        changeIcon(iconRes, false);
-        changeMainProgressEnabled(mainProgressEnabled);
+        changeBackgroundColor(backgroundColor); // white is the default color set in theme.
+        changeState(state, stateChangeDelayInMillis); // normal state by default.
+        changeIcon(iconRes, false); // hidden by default.
+        changeMainProgressEnabled(mainProgressEnabled); // hidden by default.
 
-        changeTitle(title, AnimationType.NO_ANIMATION);
-        changeTitleTextSize(titleTextSize, true);
-        changeTitleColor(titleColor);
+        changeTitle(title, AnimationType.NO_ANIMATION); // black is the default color set in theme.
+        changeTitleTextSize(titleTextSize, true); // 28sp
+        changeTitleColor(titleColor); // black is the default color set in theme.
 
         changeDescription(description, AnimationType.NO_ANIMATION);
-        changeDescriptionColor(descriptionColor);
-        changeSmallProgressEnabled(smallProgressEnabled);
+        changeDescriptionColor(descriptionColor); // white is the default color set in theme.
+        changeSmallProgressEnabled(smallProgressEnabled); // hidden by default.
 
-        changeActionButtonText(actionButtonText);
-        changeActionButtonTextColor(actionButtonTextColor);
-        changeActionButtonColor(actionButtonColor);
-        changeOnActionButtonClick(this, onActionButtonClickListener);
+        changeActionButtonText(actionButtonText); // hidden by default.
+        changeActionButtonTextColor(actionButtonTextColor); // white is the default color set in theme.
+        changeActionButtonColor(actionButtonColor); // black is the default color set in theme.
+        changeOnActionButtonClick(this, onActionButtonClickListener); // nothing happens by default.
 
-        changeProgressStrokeColor(progressStrokeColor);
-        changeProgressBackgroundColor(progressBackgroundColor);
+        changeProgressStrokeColor(progressStrokeColor); // black is the default color set in theme.
+        changeProgressBackgroundColor(progressBackgroundColor); // transparent is the default color set in theme.
 
-        changeGravity(gravity);
+        changeGravity(gravity); // centralized.
 
-        changeTitleFont(titleFontFilename);
-        changeDescriptionFont(descriptionFontFilename);
-        changeActionButtonFont(actionButtonFontFilename);
+        changeTitleFont(titleFontFilename); // uses the app theme font by default.
+        changeDescriptionFont(descriptionFontFilename); // uses the app theme font by default.
+        changeActionButtonFont(actionButtonFontFilename); // uses the app theme font by default.
 
         if (attrs != null){
             ta.recycle();
@@ -421,9 +436,13 @@ public class StateView extends LinearLayout {
     }
 
 
-
-
-
+    /**
+     * Setup Background Color change
+     */
+    private void changeBackgroundColor(int backgroundColor) {
+        if (backgroundColor == NO_VALUE) return;
+        ll_root.setBackgroundColor(backgroundColor);
+    }
 
 
     /**
@@ -618,13 +637,12 @@ public class StateView extends LinearLayout {
      */
     private void changeIcon(@Nullable @DrawableRes Integer iconRes, boolean isGif){
         if (iv_mainIcon == null) return;
-        if (iconRes == NO_VALUE) iconRes = null;
 
         if (iconRes == null) {
             iv_mainIcon.setImageBitmap(null);
             iv_mainIcon.setVisibility(View.GONE);
             return;
-        };
+        }
 
         if (!isGif) {
             iv_mainIcon.setImageResource(iconRes);
@@ -688,9 +706,7 @@ public class StateView extends LinearLayout {
 
             } else {
                 cpv_smallProgress.animate()
-                        .withStartAction(() -> {
-                            cpv_smallProgress.resumeIndeterminateAnimation();
-                        })
+                        .withStartAction(() -> cpv_smallProgress.resumeIndeterminateAnimation())
                         .alpha(1f)
                         .setDuration(220)
                         .withEndAction(() -> cpv_smallProgress.setVisibility(View.VISIBLE))
@@ -742,9 +758,7 @@ public class StateView extends LinearLayout {
                             .alpha(0f)
                             .setDuration(143)
                             .setStartDelay(delayMillis)
-                            .withEndAction(() -> {
-                                ll_root.setVisibility(View.GONE);
-                            });
+                            .withEndAction(() -> ll_root.setVisibility(View.GONE));
                 } else {
                     ll_root.setVisibility(View.GONE);
                 }
@@ -756,9 +770,7 @@ public class StateView extends LinearLayout {
                             .alpha(1f)
                             .setDuration(143)
                             .setStartDelay(delayMillis)
-                            .withEndAction(() -> {
-                                ll_root.setVisibility(View.VISIBLE);
-                            });
+                            .withEndAction(() -> ll_root.setVisibility(View.VISIBLE));
                 } else {
                     ll_root.setVisibility(View.VISIBLE);
                 }
@@ -853,7 +865,7 @@ public class StateView extends LinearLayout {
 
             final String FONTFILE_DIRECTORY = "fonts"; // this is /res/fonts/<put_you_custom_.ttf_font_file_here>
             Typeface typeface = Typeface.createFromAsset(ctx.getAssets(), FONTFILE_DIRECTORY + File.separator + fontFilename);
-            fontCache.put(fontFilename, new SoftReference<Typeface>(typeface));
+            fontCache.put(fontFilename, new SoftReference<>(typeface));
             return typeface;
         }
     }
