@@ -37,6 +37,5 @@
         <attr name="stateProgressStrokeColor" format="color" />
         <attr name="stateProgressBackgroundColor" format="color" />
 
-
     </declare-styleable>
 </resources>

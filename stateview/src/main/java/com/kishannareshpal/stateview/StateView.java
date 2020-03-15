@@ -12,13 +12,18 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Space;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.graphics.ColorUtils;
 
 import com.bumptech.glide.Glide;
@@ -29,7 +34,7 @@ import java.io.File;
 import java.lang.ref.SoftReference;
 import java.util.Hashtable;
 
-public class StateView extends LinearLayout {
+public class StateView extends ViewSwitcher {
 
     // default values
     public static final int NO_VALUE = -102;
@@ -41,17 +46,18 @@ public class StateView extends LinearLayout {
     private Context ctx;
 
     // Components
-    private LinearLayout ll_root, ll_iconHolder, ll_descriptionHolder, ll_actionButtonHolder; // root
+    private CardView cv_root;
+    private LinearLayout ll_iconHolder, ll_descriptionHolder, ll_actionButtonHolder; // root
     private CircularProgressView cpv_mainProgress, cpv_smallProgress;
     private ImageView iv_mainIcon;
     private TextView tv_title, tv_description;
     private MaterialButton btn_action;
-
+    private Space space;
 
     private State state;
     private @Nullable @DrawableRes Integer iconRes;
-    private int stateChangeDelayInMillis = 0;
-    private String title, description, actionButtonText;
+    private boolean stateChangeAnimated = true;
+    private CharSequence title, description, actionButtonText;
     private @ColorInt int backgroundColor;
     private @ColorInt int titleColor, descriptionColor;
     private @ColorInt int actionButtonColor, actionButtonTextColor;
@@ -65,7 +71,6 @@ public class StateView extends LinearLayout {
     private String titleFontFilename, descriptionFontFilename, actionButtonFontFilename;
 
     // TODO: private @Px int actionCornerRadius;
-
 
     public interface OnActionButtonClickListener {
         void OnActionButtonClick(StateView stateView, View actionButton);
@@ -139,34 +144,33 @@ public class StateView extends LinearLayout {
 
 
     /**
-     * Change the state.
+     * Change the state with a fade animation by default.
      * - {@link State#NORMAL} shows the content.
      * - {@link State#ALTERNATE} shows the alternate content, such as empty message.
      *
      * @param state the state to which you want to change.
-     * @see StateView#state(State, int) if you want to add a delay before changing to the other state.
+     * @see StateView#state(State, boolean) if you want to disable or enable the fade animation when changing states.
      */
     public StateView state(State state) {
         this.state = state;
-        this.stateChangeDelayInMillis = 0;
 
-        changeState(state, 0);
+        changeState(state, stateChangeAnimated);
         return this;
     }
 
     /**
-     * Change the state.
+     * Change the state animating as specified.
      * - {@link State#NORMAL} shows the content.
      * - {@link State#ALTERNATE} shows the alternate content, such as empty message.
      *
      * @param state the state to which you want to change.
-     * @param stateChangeDelayInMillis the delay in milliseconds to wait before changing the
+     * @param animated the delay in milliseconds to wait before changing the
      */
-    public StateView state(State state, int stateChangeDelayInMillis) {
+    public StateView state(State state, boolean animated) {
         this.state = state;
-        this.stateChangeDelayInMillis = stateChangeDelayInMillis;
+        this.stateChangeAnimated = animated;
 
-        changeState(state, stateChangeDelayInMillis);
+        changeState(state, animated);
         return this;
     }
 
@@ -174,9 +178,22 @@ public class StateView extends LinearLayout {
      * Change the title, instantly.
      * @param title the new title, or pass {@code null} to hide the title.
      */
-    public StateView title(String title) {
+    public StateView title(@Nullable CharSequence title) {
         this.title = title;
         this.titleTextChangeAnimationType = AnimationType.NO_ANIMATION;
+
+        changeTitle(title, titleTextChangeAnimationType);
+        return this;
+    }
+
+    /**
+     * Change the title, with some animation.
+     * @param title the new title, or pass {@code null} to hide the title.
+     * @param titleTextChangeAnimationType the animation type {@link AnimationType} to use when changing the title
+     */
+    public StateView title(@Nullable CharSequence title, AnimationType titleTextChangeAnimationType) {
+        this.title = title;
+        this.titleTextChangeAnimationType = titleTextChangeAnimationType;
 
         changeTitle(title, titleTextChangeAnimationType);
         return this;
@@ -189,20 +206,6 @@ public class StateView extends LinearLayout {
     public StateView titleTextSize(int titleTextSize) {
         this.titleTextSize = titleTextSize;
         changeTitleTextSize(titleTextSize, false);
-        return this;
-    }
-
-
-    /**
-     * Change the title, with some animation.
-     * @param title the new title, or pass {@code null} to hide the title.
-     * @param titleTextChangeAnimationType the animation type {@link AnimationType} to use when changing the title
-     */
-    public StateView title(@Nullable String title, AnimationType titleTextChangeAnimationType) {
-        this.title = title;
-        this.titleTextChangeAnimationType = titleTextChangeAnimationType;
-
-        changeTitle(title, titleTextChangeAnimationType);
         return this;
     }
 
@@ -231,7 +234,7 @@ public class StateView extends LinearLayout {
      * Change the description, instantly.
      * @param description the new description, or pass {@code null} to hide the description.
      */
-    public StateView description(@Nullable String description) {
+    public StateView description(@Nullable CharSequence description) {
         this.description = description;
         this.descriptionTextChangeAnimationType = AnimationType.NO_ANIMATION;
         changeDescription(description, descriptionTextChangeAnimationType);
@@ -243,7 +246,7 @@ public class StateView extends LinearLayout {
      * @param description the new description, or pass {@code null} to hide the description.
      * @param descriptionTextChangeAnimationType the animation type {@link AnimationType} to use when changing the description
      */
-    public StateView description(@Nullable String description, AnimationType descriptionTextChangeAnimationType) {
+    public StateView description(@Nullable CharSequence description, AnimationType descriptionTextChangeAnimationType) {
         this.description = description;
         this.descriptionTextChangeAnimationType = descriptionTextChangeAnimationType;
         changeDescription(description, descriptionTextChangeAnimationType);
@@ -349,7 +352,12 @@ public class StateView extends LinearLayout {
     public StateView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.ctx = context;
-        init(context, attrs);
+        init(ctx, attrs);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
     }
 
     /**
@@ -360,7 +368,8 @@ public class StateView extends LinearLayout {
         TypedArray ta = null;
 
         // Init Inside Components
-        ll_root               = findViewById(R.id.ll_root);
+        cv_root               = findViewById(R.id.cv_root);
+        space                 = findViewById(R.id.space);
         iv_mainIcon           = findViewById(R.id.iv_mainIcon);
         cpv_mainProgress      = findViewById(R.id.cpv_mainProgress);
         ll_iconHolder         = findViewById(R.id.ll_iconHolder);
@@ -397,14 +406,13 @@ public class StateView extends LinearLayout {
             this.description              = ta.getString(R.styleable.StateView_stateDescription);
             this.descriptionColor         = ta.getColor(R.styleable.StateView_stateDescriptionColor, NO_VALUE);
 
-            this.gravity                  = ComponentGravity.fromId(ta.getInt(R.styleable.StateView_stateMode, ComponentGravity.CENTER.getId()));
+            this.gravity                  = ComponentGravity.fromId(ta.getInt(R.styleable.StateView_stateGravity, ComponentGravity.CENTER.getId()));
             this.actionButtonText         = ta.getString(R.styleable.StateView_stateActionButtonText);
             this.actionButtonTextColor    = ta.getColor(R.styleable.StateView_stateActionButtonTextColor, NO_VALUE);
             this.actionButtonColor        = ta.getColor(R.styleable.StateView_stateActionButtonColor, NO_VALUE);
         }
 
         changeBackgroundColor(backgroundColor); // white is the default color set in theme.
-        changeState(state, stateChangeDelayInMillis); // normal state by default.
         changeIcon(iconRes, false); // hidden by default.
         changeMainProgressEnabled(mainProgressEnabled); // hidden by default.
 
@@ -433,6 +441,7 @@ public class StateView extends LinearLayout {
         if (attrs != null){
             ta.recycle();
         }
+
     }
 
 
@@ -441,14 +450,14 @@ public class StateView extends LinearLayout {
      */
     private void changeBackgroundColor(int backgroundColor) {
         if (backgroundColor == NO_VALUE) return;
-        ll_root.setBackgroundColor(backgroundColor);
+        cv_root.setCardBackgroundColor(backgroundColor);
     }
 
 
     /**
      * Setup Action Button
      */
-    private void changeActionButtonText(String actionButtonText) {
+    private void changeActionButtonText(CharSequence actionButtonText) {
         if (btn_action == null) return;
 
         if (actionButtonText == null) {
@@ -492,7 +501,6 @@ public class StateView extends LinearLayout {
     public void changeActionButtonTextColor(@ColorInt int actionButtonTextColor){
         if (actionButtonTextColor == NO_VALUE) return;
         if (btn_action != null) {
-
             /*
              * If you want to set colors for disabled, unfocused, unchecked states etc. just negate the state.
              *
@@ -501,12 +509,12 @@ public class StateView extends LinearLayout {
              */
             int[][] states = new int[][] {
                     new int[] { android.R.attr.state_enabled}, // enabled
-                    new int[] {-android.R.attr.state_enabled}, // disabled
+                    new int[] {-android.R.attr.state_enabled} // disabled
             };
 
             int[] colors = new int[] {
                     actionButtonTextColor,
-                    Color.DKGRAY,
+                    Color.DKGRAY
             };
 
             ColorStateList textColorList = new ColorStateList(states, colors);
@@ -540,7 +548,7 @@ public class StateView extends LinearLayout {
     /**
      * Setup Description
      */
-    private void changeDescription(String message, AnimationType descriptionTextChangeAnimationType) {
+    private void changeDescription(CharSequence message, AnimationType descriptionTextChangeAnimationType) {
         if (tv_description == null) return;
 
         if (message != null) {
@@ -579,10 +587,10 @@ public class StateView extends LinearLayout {
     /**
      * Setup Title
      */
-    private void changeTitle(String title, AnimationType titleTextChangeAnimationType){
+    private void changeTitle(CharSequence title, AnimationType titleTextChangeAnimationType){
         if (tv_title == null) return;
 
-        if (title != null) {
+        if (!TextUtils.isEmpty(title)) {
             if (tv_title.getVisibility() != View.VISIBLE){
                 tv_title.setVisibility(View.VISIBLE);
             }
@@ -605,8 +613,16 @@ public class StateView extends LinearLayout {
                     break;
             }
 
+            if (iconRes == null || !mainProgressEnabled) {
+                space.setVisibility(GONE);
+
+            } else {
+                space.setVisibility(VISIBLE);
+            }
+
         } else {
             tv_title.setVisibility(View.GONE);
+            space.setVisibility(GONE);
         }
     }
 
@@ -641,6 +657,7 @@ public class StateView extends LinearLayout {
         if (iconRes == null) {
             iv_mainIcon.setImageBitmap(null);
             iv_mainIcon.setVisibility(View.GONE);
+            space.setVisibility(GONE);
             return;
         }
 
@@ -654,6 +671,13 @@ public class StateView extends LinearLayout {
                     .into(iv_mainIcon);
         }
         iv_mainIcon.setVisibility(View.VISIBLE);
+
+        if (!mainProgressEnabled) {
+            space.setVisibility(GONE);
+
+        } else {
+            space.setVisibility(VISIBLE);
+        }
     }
 
 
@@ -661,16 +685,19 @@ public class StateView extends LinearLayout {
      * Setup progress indicator
      */
     private void changeMainProgressEnabled(boolean enabled) {
+        if (cpv_mainProgress == null) return;
         if (enabled) {
             if (isInEditMode()) {
                 cpv_mainProgress.setVisibility(View.VISIBLE);
+                if (iv_mainIcon == null) return;
                 iv_mainIcon.setVisibility(View.GONE);
 
             } else {
                 cpv_mainProgress.animate()
                         .withStartAction(() -> {
-                            iv_mainIcon.setVisibility(View.GONE);
                             cpv_mainProgress.resumeIndeterminateAnimation();
+                            if (iv_mainIcon == null) return;
+                            iv_mainIcon.setVisibility(View.GONE);
                         })
                         .alpha(1f)
                         .setDuration(220)
@@ -682,6 +709,7 @@ public class StateView extends LinearLayout {
         } else {
             if (isInEditMode()) {
                 cpv_mainProgress.setVisibility(View.GONE);
+                if (iv_mainIcon == null) return;
                 if (iconRes != null) iv_mainIcon.setVisibility(View.VISIBLE);
 
             } else {
@@ -691,15 +719,24 @@ public class StateView extends LinearLayout {
                         .withEndAction(() -> {
                             cpv_mainProgress.pauseIndeterminateAnimation(true);
                             cpv_mainProgress.setVisibility(View.GONE);
+                            if (iv_mainIcon == null) return;
                             if (iconRes != null) iv_mainIcon.setVisibility(View.VISIBLE);
                         })
                         .setInterpolator(new AccelerateInterpolator())
                         .start();
             }
         }
+
+        if (iconRes == null || !mainProgressEnabled) {
+            space.setVisibility(GONE);
+
+        } else {
+            space.setVisibility(VISIBLE);
+        }
     }
 
     private void changeSmallProgressEnabled(boolean enabled) {
+        if (cpv_smallProgress == null) return;
         if (enabled) {
             if (isInEditMode()) {
                 cpv_smallProgress.setVisibility(View.VISIBLE);
@@ -745,35 +782,51 @@ public class StateView extends LinearLayout {
     }
 
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        changeState(this.state, this.stateChangeAnimated);
+    }
 
     /**
      * Setup State changing
      */
-    private void changeState(State state, int delayMillis) {
-        if (ll_root == null) return;
+    private void changeState(State state, boolean animated) {
+
+        if (!isInEditMode()) {
+            if (animated) {
+
+                Animation fadeOutAnimation = new AlphaAnimation(1f, .2f);
+                fadeOutAnimation.setDuration(139);
+                setOutAnimation(fadeOutAnimation);
+
+            } else {
+                setOutAnimation(null);
+                setInAnimation(null);
+            }
+        }
+
         switch (state) {
             case NORMAL:
-                if (delayMillis > 0) {
-                    ll_root.animate()
-                            .alpha(0f)
-                            .setDuration(143)
-                            .setStartDelay(delayMillis)
-                            .withEndAction(() -> ll_root.setVisibility(View.GONE));
-                } else {
-                    ll_root.setVisibility(View.GONE);
-                }
+                setDisplayedChild(1);
+                tv_title.setVisibility(GONE);
+                tv_description.setVisibility(GONE);
+                iv_mainIcon.setVisibility(GONE);
+                cpv_smallProgress.setVisibility(GONE);
+                cpv_mainProgress.setVisibility(GONE);
+                btn_action.setVisibility(GONE);
+                space.setVisibility(GONE);
                 break;
 
             case ALTERNATE:
-                if (delayMillis > 0) {
-                    ll_root.animate()
-                            .alpha(1f)
-                            .setDuration(143)
-                            .setStartDelay(delayMillis)
-                            .withEndAction(() -> ll_root.setVisibility(View.VISIBLE));
-                } else {
-                    ll_root.setVisibility(View.VISIBLE);
-                }
+                setDisplayedChild(0);
+                if (title != null) tv_title.setVisibility(VISIBLE);
+                if (description != null) tv_description.setVisibility(VISIBLE);
+                if (iconRes != null) iv_mainIcon.setVisibility(VISIBLE);
+                if (smallProgressEnabled) cpv_smallProgress.setVisibility(VISIBLE);
+                if (mainProgressEnabled) cpv_mainProgress.setVisibility(VISIBLE);
+                if (actionButtonText != null) btn_action.setVisibility(VISIBLE);
+                if ((iconRes != null || mainProgressEnabled) && (title != null)) space.setVisibility(VISIBLE);
                 break;
         }
     }
@@ -806,6 +859,7 @@ public class StateView extends LinearLayout {
 //        if (ll_root != null) ll_root.setGravity(grvt);
         if (ll_iconHolder != null) ll_iconHolder.setGravity(grvt);
         if (tv_title != null) tv_title.setGravity(grvt);
+        if (tv_description != null) tv_description.setGravity(grvt);
         if (ll_descriptionHolder != null) ll_descriptionHolder.setGravity(grvt);
         if (ll_actionButtonHolder != null) ll_actionButtonHolder.setGravity(grvt);
     }

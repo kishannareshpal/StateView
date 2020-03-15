@@ -13,8 +13,8 @@ publish {
     groupId = groupProjectID
     artifactId = artifactProjectID
     publishVersion = publishVersionID
-    desc = 'An alternate state control for views for Android. Can be used for showing that a RecyclerView has no data.'
-    website = 'https://github.com/' + groupProjectID + "/" + artifactProjectID
+    desc = 'An alternate state control for views for Android. Can be used for showing that a RecyclerView or any other View has no data.'
+    website = 'https://github.com/' + userOrg + "/" + artifactProjectID
 }
 
 android {

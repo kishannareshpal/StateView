@@ -13,7 +13,7 @@ public class AnimationUtils {
          * @param textView textview of which you want to animate.
          * @param newText the new text to be changed.
          */
-        public static void changeTextWithSlideToTop(android.widget.TextView textView, String newText) {
+        public static void changeTextWithSlideToTop(android.widget.TextView textView, CharSequence newText) {
             textView.animate()
                     .translationY(-15f)
                     .alpha(0f)
@@ -32,12 +32,12 @@ public class AnimationUtils {
 
         /**
          * Swaps the current text with the newText with a vertical slide-to-bottom animation.
-         * similar to {@link AnimationUtils.TextView#changeTextWithSlideToTop(android.widget.TextView, String)}
+         * similar to {@link AnimationUtils.TextView#changeTextWithSlideToTop(android.widget.TextView, CharSequence)}
          *
          * @param textView textview of which you want to animate.
          * @param newText the new text to be changed.
          */
-        public static void changeTextWithSlideToBottom(android.widget.TextView textView, String newText) {
+        public static void changeTextWithSlideToBottom(android.widget.TextView textView, CharSequence newText) {
             textView.animate()
                     .translationY(15f)
                     .alpha(0f)
@@ -60,7 +60,7 @@ public class AnimationUtils {
          * @param textView textView of which you want to animate.
          * @param newText the new text to be changed.
          */
-        public static void changeTextWithFade(android.widget.TextView textView, String newText) {
+        public static void changeTextWithFade(android.widget.TextView textView, CharSequence newText) {
             textView.animate()
                     .alpha(0.2f)
                     .setDuration(144)

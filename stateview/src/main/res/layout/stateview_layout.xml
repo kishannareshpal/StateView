@@ -1,105 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_root"
+    android:id="@+id/cv_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="18dp"
-    android:visibility="gone"
     android:theme="@style/StateViewTheme"
-    tools:visibility="visible">
+    app:cardCornerRadius="0dp"
+    app:cardMaxElevation="0dp">
 
     <LinearLayout
-        android:id="@+id/ll_iconHolder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="18dp">
 
-        <com.kishannareshpal.circularprogressview.CircularProgressView
-            android:id="@+id/cpv_mainProgress"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:visibility="gone"
-            app:backgroundColor="?attr/stateProgressBackgroundColor"
-            app:progressStrokeColor="?attr/stateProgressStrokeColor"
-            tools:visibility="visible" />
+        <LinearLayout
+            android:id="@+id/ll_iconHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/iv_mainIcon"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="center"
-            android:contentDescription="A cool image for this alternate mode goes here!"
-            android:scaleType="fitXY"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            <com.kishannareshpal.circularprogressview.CircularProgressView
+                android:id="@+id/cpv_mainProgress"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:visibility="gone"
+                app:backgroundColor="?attr/stateProgressBackgroundColor"
+                app:progressStrokeColor="?attr/stateProgressStrokeColor"
+                tools:visibility="visible" />
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/iv_mainIcon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:contentDescription="A cool image for this alternate mode goes here!"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="6dp" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="?attr/stateTitleColor"
-        android:textSize="?attr/stateTitleTextSize"
-        android:textStyle="bold"
-        android:visibility="gone"
-        tools:text="No Comments Yet"
-        tools:visibility="visible" />
-
-
-    <LinearLayout
-        android:id="@+id/ll_descriptionHolder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.kishannareshpal.circularprogressview.CircularProgressView
-            android:id="@+id/cpv_smallProgress"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginRight="12dp"
-            android:visibility="gone"
-            app:backgroundColor="?attr/stateProgressBackgroundColor"
-            app:progressStrokeColor="?attr/stateProgressStrokeColor"
-            tools:visibility="visible" />
+        <Space
+            android:id="@+id/space"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:visibility="gone" />
 
         <TextView
-            android:id="@+id/tv_description"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Be the first to share what you think!"
-            android:textColor="?attr/stateDescriptionColor" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_actionButtonHolder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="12dp"
-        android:orientation="vertical">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_action"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:textColor="?attr/stateActionButtonTextColor"
+            android:textColor="?attr/stateTitleColor"
+            android:textSize="?attr/stateTitleTextSize"
             android:textStyle="bold"
             android:visibility="gone"
-            app:cornerRadius="64dp"
-            tools:text="Just do it!"
+            tools:text="No Comments Yet"
             tools:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/ll_descriptionHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.kishannareshpal.circularprogressview.CircularProgressView
+                android:id="@+id/cpv_smallProgress"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="12dp"
+                android:visibility="gone"
+                app:backgroundColor="?attr/stateProgressBackgroundColor"
+                app:progressStrokeColor="?attr/stateProgressStrokeColor"
+                tools:visibility="visible"
+                android:layout_marginEnd="12dp" />
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Be the first to share what you think!"
+                android:textColor="?attr/stateDescriptionColor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_actionButtonHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_action"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textAllCaps="false"
+                android:textColor="?attr/stateActionButtonTextColor"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:cornerRadius="64dp"
+                tools:text="Just do it!"
+                tools:visibility="visible" />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>
+
+
