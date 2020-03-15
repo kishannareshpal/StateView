@@ -11,6 +11,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -69,6 +70,8 @@ public class StateView extends ViewSwitcher {
     private OnActionButtonClickListener onActionButtonClickListener;
     private int titleTextSize;
     private String titleFontFilename, descriptionFontFilename, actionButtonFontFilename;
+
+    private int origChildCount;
 
     // TODO: private @Px int actionCornerRadius;
 
@@ -358,6 +361,47 @@ public class StateView extends ViewSwitcher {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
+    }
+
+
+    @Override
+    public void addView(View child) {
+        if (getChildCount() > 2) {
+            throw new IllegalStateException("Cannot add more than 1 child view to StateView. Hint: Wrap your views in one Layout View.");
+        }
+        super.addView(child);
+    }
+
+    @Override
+    public void addView(View child, int index, ViewGroup.LayoutParams params) {
+        if (getChildCount() >= 2) {
+            throw new IllegalStateException("Cannot add more than 1 child view to StateView. Hint: Wrap your views in one Layout View.");
+        }
+        super.addView(child, index, params);
+    }
+
+    @Override
+    public void addView(View child, ViewGroup.LayoutParams params) {
+        if (getChildCount() >= 2) {
+            throw new IllegalStateException("Cannot add more than 1 child view to StateView. Hint: Wrap your views in one Layout View.");
+        }
+        super.addView(child, params);
+    }
+
+    @Override
+    public void addView(View child, int index) {
+        if (getChildCount() >= 2) {
+            throw new IllegalStateException("Cannot add more than 1 child view to StateView. Hint: Wrap your views in one Layout View.");
+        }
+        super.addView(child, index);
+    }
+
+    @Override
+    public void addView(View child, int width, int height) {
+        if (getChildCount() > 2) {
+            throw new IllegalStateException("Cannot add more than 1 child view to StateView. Hint: Wrap your views in one Layout View.");
+        }
+        super.addView(child, width, height);
     }
 
     /**
