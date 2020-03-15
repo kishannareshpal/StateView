@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 
-def libVersion = '1.0'
+def libVersion = '1.1'
 
 publish {
     def groupProjectID = 'com.kishannareshpal'
