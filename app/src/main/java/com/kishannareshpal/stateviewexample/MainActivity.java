@@ -27,23 +27,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btn = findViewById(R.id.button);
-        sv         = findViewById(R.id.stateview);
-        tv         = findViewById(R.id.tv);
-
-
-        fetchRandomCatFact();
-        btn.setEnabled(false);
-
-        sv.backgroundColor(Color.WHITE)
-                .descriptionColor(Color.GRAY)
-                .gravity(ComponentGravity.LEFT);
-
-        btn.setOnClickListener((view) -> {
-            // fetch
-            fetchRandomCatFact();
-            btn.setEnabled(false);
-       });
+//        btn = findViewById(R.id.button);
+//        sv         = findViewById(R.id.stateview);
+//        tv         = findViewById(R.id.tv);
+//
+//
+//        fetchRandomCatFact();
+//        btn.setEnabled(false);
+//
+//        sv.backgroundColor(Color.WHITE)
+//                .descriptionColor(Color.GRAY)
+//                .gravity(ComponentGravity.LEFT);
+//
+//        btn.setOnClickListener((view) -> {
+//            // fetch
+//            fetchRandomCatFact();
+//            btn.setEnabled(false);
+//        });
     }
 
     private void fetchRandomCatFact() {

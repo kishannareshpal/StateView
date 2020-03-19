@@ -42,23 +42,34 @@
 
     </LinearLayout>
 
+
     <com.kishannareshpal.stateview.StateView
-        android:id="@+id/stateview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:stateMode="normal">
 
-        <TextView
-            android:id="@+id/tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#090018"
-            android:fontFamily="casual"
-            android:padding="18dp"
-            android:text="[This should never be shown!]"
-            android:textColor="@android:color/white"
-            android:textSize="14sp" />
-    </com.kishannareshpal.stateview.StateView>
+        app:stateActionButtonText="Feed the cat"
+        app:stateDescription="Could not find any cats fact\nFeed me and i'll look again."
+        app:stateIcon="@drawable/ic_badcat"
+        app:stateMode="alternate"
+        app:stateTitle="Meow!!" />
+
+<!--    <com.kishannareshpal.stateview.StateView-->
+<!--        android:id="@+id/stateview"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:stateMode="normal">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tv"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="#090018"-->
+<!--            android:fontFamily="casual"-->
+<!--            android:padding="18dp"-->
+<!--            android:text="[This should never be shown!]"-->
+<!--            android:textColor="@android:color/white"-->
+<!--            android:textSize="14sp" />-->
+<!--    </com.kishannareshpal.stateview.StateView>-->
 
     <Button
         android:id="@+id/button"
