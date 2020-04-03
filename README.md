@@ -1,6 +1,6 @@
 # StateView
-An alternate state control for views for Android. Can be used for showing that
-a RecyclerView other View has no data
+An alternate state control for views for Android. Can be used to show that
+a RecyclerView or any other View has no data
 
 ## 🌶 Want to use it in your project? Here's how to install
 
