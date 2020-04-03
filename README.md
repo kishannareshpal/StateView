@@ -4,7 +4,10 @@ a RecyclerView other View has no data
 
 ## 🌶 Want to use it in your project? Here's how to install
 
-[ ![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)![Download](https://api.bintray.com/packages/kishannareshpal/maven/stateview/images/download.svg?version=1.0)](https://bintray.com/kishannareshpal/maven/stateview/1.0/link)
+[![forthebadge](https://forthebadge.com/images/badges/built-for-android.svg)](https://forthebadge.com)
+![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)
+![Download](https://api.bintray.com/packages/kishannareshpal/maven/stateview/images/download.svg?version=1.1)
+
 
 Add the library to the **dependencies { ... }** section of your **app** level `build.gradle` file:
 
