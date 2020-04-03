@@ -5,6 +5,7 @@ a RecyclerView or any other View has no data
 ## 🌶 Want to use it in your project? Here's how to install
 
 [![forthebadge](https://forthebadge.com/images/badges/built-for-android.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com)<br>
 ![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)
 ![Download](https://api.bintray.com/packages/kishannareshpal/maven/stateview/images/download.svg?version=1.1)
 
