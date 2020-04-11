@@ -4,10 +4,9 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.Typeface;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -24,6 +23,7 @@ import android.widget.ViewSwitcher;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
 import androidx.cardview.widget.CardView;
 import androidx.core.graphics.ColorUtils;
 
@@ -31,17 +31,14 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.kishannareshpal.circularprogressview.CircularProgressView;
 
-import java.io.File;
-import java.lang.ref.SoftReference;
-import java.util.Hashtable;
-
 public class StateView extends ViewSwitcher {
 
     // default values
     public static final int NO_VALUE = -102;
-    // TODO private static final int DEFAULT_ACTION_CORNER_RADIUS = 24;
+    private static final int DEFAULT_CONTENT_PADDING = 18; // dp
     private static final int DEFAULT_TITLE_TEXTSIZE = 24; // sp
-    private static final Hashtable<String, SoftReference<Typeface>> fontCache = new Hashtable<>(); // prevents memory leak for font changing.
+    private static final int DEFAULT_DESCRIPTION_TEXTSIZE = 16; // sp
+    private static final int DEFAULT_ACTIONBUTTON_CORNERRADIUS = 64; // dp
 
     // Utils
     private Context ctx;
@@ -60,7 +57,7 @@ public class StateView extends ViewSwitcher {
     private boolean stateChangeAnimated = true;
     private CharSequence title, description, actionButtonText;
     private @ColorInt int backgroundColor;
-    private @ColorInt int titleColor, descriptionColor;
+    private @ColorInt int titleTextColor, descriptionTextColor;
     private @ColorInt int actionButtonColor, actionButtonTextColor;
     private AnimationType titleTextChangeAnimationType = AnimationType.NO_ANIMATION,
                    descriptionTextChangeAnimationType = AnimationType.NO_ANIMATION;
@@ -68,10 +65,11 @@ public class StateView extends ViewSwitcher {
     private @ColorInt int progressStrokeColor, progressBackgroundColor;
     private ComponentGravity gravity;
     private OnActionButtonClickListener onActionButtonClickListener;
-    private int titleTextSize;
-    private String titleFontFilename, descriptionFontFilename, actionButtonFontFilename;
+    private int titleTextSize, descriptionTextSize;
+    private int actionButtonCornerRadius;
+    private int contentPaddingLeft, contentPaddingRight, contentPaddingBottom, contentPaddingTop;
+    private @StyleRes int titleTextAppearance, descriptionTextAppearance, actionButtonTextAppearance;
 
-    private int origChildCount;
 
     // TODO: private @Px int actionCornerRadius;
 
@@ -91,6 +89,45 @@ public class StateView extends ViewSwitcher {
     public StateView backgroundColor(@ColorInt int backgroundColor) {
         this.backgroundColor = backgroundColor;
         changeBackgroundColor(backgroundColor);
+        return this;
+    }
+
+    /**
+     * Change the horizontal gravity of the icon, title, and description with smallProgress all at once.
+     * @param gravity {@link ComponentGravity} horizontal gravity.
+     */
+    public StateView gravity(ComponentGravity gravity) {
+        this.gravity = gravity;
+        changeGravity(gravity);
+        return this;
+    }
+
+    /**
+     * Change the content padding for individual sides.
+     * @param left left padding
+     * @param top top padding
+     * @param right right padding
+     * @param bottom bottom padding
+     */
+    public StateView contentPadding(int left, int top, int right, int bottom) {
+        this.contentPaddingLeft = left;
+        this.contentPaddingTop = top;
+        this.contentPaddingRight = right;
+        this.contentPaddingBottom = bottom;
+        changeContentPadding(left, top, right, bottom);
+        return this;
+    }
+
+    /**
+     * Change the content padding for all sides at once.
+     * @param padding padding to be applied for all sides.
+     */
+    public StateView contentPadding(int padding) {
+        this.contentPaddingLeft = padding;
+        this.contentPaddingTop = padding;
+        this.contentPaddingRight = padding;
+        this.contentPaddingBottom = padding;
+        changeContentPadding(padding, padding, padding, padding);
         return this;
     }
 
@@ -214,27 +251,17 @@ public class StateView extends ViewSwitcher {
 
     /**
      * Change the title text color.
-     * @param titleColor the color you want (use {@link androidx.core.content.ContextCompat#getColor(Context, int)})
+     * @param titleTextColor the color you want (use {@link androidx.core.content.ContextCompat#getColor(Context, int)})
      */
-    public StateView titleColor(@ColorInt int titleColor) {
-        this.titleColor = titleColor;
-        changeTitleColor(titleColor);
+    public StateView titleTextColor(@ColorInt int titleTextColor) {
+        this.titleTextColor = titleTextColor;
+        changeTitleTextColor(titleTextColor);
         return this;
     }
 
-    /**
-     * Change the title text font family.
-     *
-     * @param fontFilename the font file name including the extension such as ".ttf"
-     */
-    public StateView titleFont(String fontFilename) {
-        this.titleFontFilename = fontFilename;
-        changeTitleFont(fontFilename);
-        return this;
-    }
 
     /**
-     * Change the description, instantly.
+     * Change the description text, instantly (without animation).
      * @param description the new description, or pass {@code null} to hide the description.
      */
     public StateView description(@Nullable CharSequence description) {
@@ -245,7 +272,7 @@ public class StateView extends ViewSwitcher {
     }
 
     /**
-     * Change the description, with some animation.
+     * Change the description text, with some animation.
      * @param description the new description, or pass {@code null} to hide the description.
      * @param descriptionTextChangeAnimationType the animation type {@link AnimationType} to use when changing the description
      */
@@ -258,33 +285,42 @@ public class StateView extends ViewSwitcher {
 
     /**
      * Change the description text color.
-     * @param descriptionColor the color you want (use {@link androidx.core.content.ContextCompat#getColor(Context, int)}).
+     * @param descriptionTextColor the color you want (use {@link androidx.core.content.ContextCompat#getColor(Context, int)}).
      */
-    public StateView descriptionColor(@ColorInt int descriptionColor) {
-        this.descriptionColor = descriptionColor;
-        changeDescriptionColor(descriptionColor);
+    public StateView descriptionTextColor(@ColorInt int descriptionTextColor) {
+        this.descriptionTextColor = descriptionTextColor;
+        changeDescriptionTextColor(descriptionTextColor);
         return this;
     }
 
     /**
-     * Change the description text font family.
-     *
-     * @param fontFilename the font file name including the extension such as ".ttf"
+     * Change the size of the description text
+     * @param descriptionTextSize description text size.
      */
-    public StateView descriptionFont(String fontFilename) {
-        this.descriptionFontFilename = fontFilename;
-        changeDescriptionFont(fontFilename);
+    public StateView descriptionTextSize(int descriptionTextSize) {
+        this.descriptionTextSize = descriptionTextSize;
+        changeDescriptionTextSize(descriptionTextSize, false);
         return this;
     }
 
 
     /**
      * Change the action button text.
-     * @param actionButtonText th enew action button text, or pass {@code null} to hide the description.
+     * @param actionButtonText the action button text, or pass {@code null} to hide the button.
      */
-    public StateView actionButtonText(String actionButtonText) {
+    public StateView actionButtonText(@Nullable CharSequence actionButtonText) {
         this.actionButtonText = actionButtonText;
         changeActionButtonText(actionButtonText);
+        return this;
+    }
+
+    /**
+     * Change the action button corner radius (all corners)
+     * @param actionButtonCornerRadius corner radius
+     */
+    public StateView actionButtonCornerRadius(int actionButtonCornerRadius) {
+        this.actionButtonCornerRadius = actionButtonCornerRadius;
+        changeActionButtonCornerRadius(actionButtonCornerRadius);
         return this;
     }
 
@@ -308,16 +344,7 @@ public class StateView extends ViewSwitcher {
         return this;
     }
 
-    /**
-     * Change the action button text font family.
-     *
-     * @param fontFilename the font file name including the extension such as ".ttf"
-     */
-    public StateView actionButtonFont(String fontFilename) {
-        this.descriptionFontFilename = fontFilename;
-        changeActionButtonFont(fontFilename);
-        return this;
-    }
+
 
     /**
      * Set what to do when the action button is clicked.
@@ -339,16 +366,55 @@ public class StateView extends ViewSwitcher {
         return this;
     }
 
-
     /**
-     * Change the horizontal gravity of the icon, title, and description with smallProgress all at once.
-     * @param gravity {@link ComponentGravity} horizontal gravity.
+     * Shows or hides the action button.
+     *
+     * @param isVisible true, makes it visible. false, hides it.
      */
-    public StateView gravity(ComponentGravity gravity) {
-        this.gravity = gravity;
-        changeGravity(gravity);
+    public StateView actionButtonIsVisible(boolean isVisible) {
+        changeActionButtonVisibility(isVisible);
         return this;
     }
+
+
+
+
+    // Getters
+
+    /**
+     * Retrieve the state mode.
+     * @return the {@link State} it is currently on.
+     */
+    public State getState() {
+        return this.state;
+    }
+
+    /**
+     * Retrieve the title text currently set.
+     * @return the title text. {@code null} if title is not set.
+     */
+    public @Nullable CharSequence getTitleText() {
+        return this.title;
+    }
+
+    /**
+     * Retrieve the description text currently set.
+     * @return the desription text. {@code null} if description is not set.
+     */
+    public @Nullable CharSequence getDescriptionText() {
+        return  this.description;
+    }
+
+
+    /**
+     * Exposes the action button, to allow easy customisation and tweaking.
+     * @return {@link MaterialButton} the action button.
+     */
+    public MaterialButton getActionButton() {
+        return this.btn_action;
+    }
+
+
 
 
     // Default Constructor
@@ -358,6 +424,11 @@ public class StateView extends ViewSwitcher {
         init(ctx, attrs);
     }
 
+
+
+
+
+
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
@@ -366,41 +437,31 @@ public class StateView extends ViewSwitcher {
 
     @Override
     public void addView(View child) {
-        if (getChildCount() > 2) {
-            throw new IllegalStateException("Cannot add more than 1 child view to StateView. Hint: Wrap your views in one Layout View.");
-        }
+        assertOnlyOneChildView(); // checks if stateview contains more than one view, if it does throw an exception.
         super.addView(child);
     }
 
     @Override
     public void addView(View child, int index, ViewGroup.LayoutParams params) {
-        if (getChildCount() >= 2) {
-            throw new IllegalStateException("Cannot add more than 1 child view to StateView. Hint: Wrap your views in one Layout View.");
-        }
+        assertOnlyOneChildView(); // checks if stateview contains more than one view, if it does throw an exception.
         super.addView(child, index, params);
     }
 
     @Override
     public void addView(View child, ViewGroup.LayoutParams params) {
-        if (getChildCount() >= 2) {
-            throw new IllegalStateException("Cannot add more than 1 child view to StateView. Hint: Wrap your views in one Layout View.");
-        }
+        assertOnlyOneChildView(); // checks if stateview contains more than one view, if it does throw an exception.
         super.addView(child, params);
     }
 
     @Override
     public void addView(View child, int index) {
-        if (getChildCount() >= 2) {
-            throw new IllegalStateException("Cannot add more than 1 child view to StateView. Hint: Wrap your views in one Layout View.");
-        }
+        assertOnlyOneChildView(); // checks if stateview contains more than one view, if it does throw an exception.
         super.addView(child, index);
     }
 
     @Override
     public void addView(View child, int width, int height) {
-        if (getChildCount() > 2) {
-            throw new IllegalStateException("Cannot add more than 1 child view to StateView. Hint: Wrap your views in one Layout View.");
-        }
+        assertOnlyOneChildView(); // checks if stateview contains more than one view, if it does throw an exception.
         super.addView(child, width, height);
     }
 
@@ -427,50 +488,64 @@ public class StateView extends ViewSwitcher {
         // if attrs were set via xml
         if (attrs != null) {
             // get the attributes from the attrs.xml
-            ta                            = getContext().obtainStyledAttributes(attrs, R.styleable.StateView);
-            this.backgroundColor          = ta.getColor(R.styleable.StateView_stateBackgroundColor, NO_VALUE);
+            ta                              = getContext().obtainStyledAttributes(attrs, R.styleable.StateView);
+            this.backgroundColor            = ta.getColor(R.styleable.StateView_stateBackgroundColor, NO_VALUE);
 
-            this.state                    = State.fromId(ta.getInt(R.styleable.StateView_stateMode, State.NORMAL.getId()));
-            this.iconRes                  = ta.getResourceId(R.styleable.StateView_stateIcon, NO_VALUE);
+            this.state                      = State.fromId(ta.getInt(R.styleable.StateView_stateMode, State.NORMAL.getId()));
+            this.iconRes                    = ta.getResourceId(R.styleable.StateView_stateIcon, NO_VALUE);
             if (this.iconRes == NO_VALUE) this.iconRes = null;
+            this.gravity                    = ComponentGravity.fromId(ta.getInt(R.styleable.StateView_stateGravity, ComponentGravity.CENTER.getId()));
 
-            this.mainProgressEnabled      = ta.getBoolean(R.styleable.StateView_stateMainProgressEnabled, false);
-            this.smallProgressEnabled     = ta.getBoolean(R.styleable.StateView_stateSmallProgressEnabled, false);
-            this.progressStrokeColor      = ta.getColor(R.styleable.StateView_stateProgressStrokeColor, NO_VALUE);
-            this.progressBackgroundColor  = ta.getColor(R.styleable.StateView_stateProgressBackgroundColor, NO_VALUE);
+            this.contentPaddingLeft         = ta.getDimensionPixelSize(R.styleable.StateView_stateContentPaddingLeft, DEFAULT_CONTENT_PADDING);
+            this.contentPaddingTop          = ta.getDimensionPixelSize(R.styleable.StateView_stateContentPaddingTop, DEFAULT_CONTENT_PADDING);
+            this.contentPaddingRight        = ta.getDimensionPixelSize(R.styleable.StateView_stateContentPaddingRight, DEFAULT_CONTENT_PADDING);
+            this.contentPaddingBottom       = ta.getDimensionPixelSize(R.styleable.StateView_stateContentPaddingBottom, DEFAULT_CONTENT_PADDING);
 
-            this.titleFontFilename        = ta.getString(R.styleable.StateView_stateTitleFontFilename);
-            this.descriptionFontFilename  = ta.getString(R.styleable.StateView_stateDescriptionFontFilename);
-            this.actionButtonFontFilename = ta.getString(R.styleable.StateView_stateActionButtonFontFilename);
+            this.mainProgressEnabled        = ta.getBoolean(R.styleable.StateView_stateMainProgressEnabled, false);
+            this.smallProgressEnabled       = ta.getBoolean(R.styleable.StateView_stateSmallProgressEnabled, false);
+            this.progressStrokeColor        = ta.getColor(R.styleable.StateView_stateProgressStrokeColor, NO_VALUE);
+            this.progressBackgroundColor    = ta.getColor(R.styleable.StateView_stateProgressBackgroundColor, NO_VALUE);
 
-            this.title                    = ta.getString(R.styleable.StateView_stateTitle);
-            this.titleTextSize            = ta.getDimensionPixelSize(R.styleable.StateView_stateTitleTextSize, NO_VALUE);
-            this.titleColor               = ta.getColor(R.styleable.StateView_stateTitleColor, NO_VALUE);
+            this.title                      = ta.getString(R.styleable.StateView_stateTitle);
+            this.titleTextSize              = ta.getDimensionPixelSize(R.styleable.StateView_stateTitleTextSize, NO_VALUE);
+            this.titleTextColor             = ta.getColor(R.styleable.StateView_stateTitleTextColor, NO_VALUE);
 
-            this.description              = ta.getString(R.styleable.StateView_stateDescription);
-            this.descriptionColor         = ta.getColor(R.styleable.StateView_stateDescriptionColor, NO_VALUE);
+            this.description                = ta.getString(R.styleable.StateView_stateDescription);
+            this.descriptionTextSize        = ta.getDimensionPixelSize(R.styleable.StateView_stateDescriptionTextColor, NO_VALUE);
+            this.descriptionTextColor       = ta.getColor(R.styleable.StateView_stateDescriptionTextColor, NO_VALUE);
 
-            this.gravity                  = ComponentGravity.fromId(ta.getInt(R.styleable.StateView_stateGravity, ComponentGravity.CENTER.getId()));
-            this.actionButtonText         = ta.getString(R.styleable.StateView_stateActionButtonText);
-            this.actionButtonTextColor    = ta.getColor(R.styleable.StateView_stateActionButtonTextColor, NO_VALUE);
-            this.actionButtonColor        = ta.getColor(R.styleable.StateView_stateActionButtonColor, NO_VALUE);
+            this.actionButtonText           = ta.getString(R.styleable.StateView_stateActionButtonText);
+            this.actionButtonTextColor      = ta.getColor(R.styleable.StateView_stateActionButtonTextColor, NO_VALUE);
+            this.actionButtonCornerRadius   = ta.getDimensionPixelSize(R.styleable.StateView_stateActionButtonCornerRadius, NO_VALUE);
+            this.actionButtonColor          = ta.getColor(R.styleable.StateView_stateActionButtonColor, NO_VALUE);
+
+            this.titleTextAppearance        = ta.getResourceId(R.styleable.StateView_stateTitleTextAppearance, NO_VALUE);
+            this.descriptionTextAppearance  = ta.getResourceId(R.styleable.StateView_stateDescriptionTextAppearance, NO_VALUE);
+            this.actionButtonTextAppearance = ta.getResourceId(R.styleable.StateView_stateActionButtonTextAppearance, NO_VALUE);
         }
 
+        changeContentPadding(contentPaddingLeft, contentPaddingTop, contentPaddingRight, contentPaddingBottom);
         changeBackgroundColor(backgroundColor); // white is the default color set in theme.
         changeIcon(iconRes, false); // hidden by default.
         changeMainProgressEnabled(mainProgressEnabled); // hidden by default.
 
         changeTitle(title, AnimationType.NO_ANIMATION); // black is the default color set in theme.
         changeTitleTextSize(titleTextSize, true); // 28sp
-        changeTitleColor(titleColor); // black is the default color set in theme.
+        changeTitleTextColor(titleTextColor); // black is the default color set in theme.
+        changeTitleTextAppearance(titleTextAppearance); // default set in theme.
+
 
         changeDescription(description, AnimationType.NO_ANIMATION);
-        changeDescriptionColor(descriptionColor); // white is the default color set in theme.
+        changeDescriptionTextSize(descriptionTextSize, true);
+        changeDescriptionTextColor(descriptionTextColor); // white is the default color set in theme.
+        changeDescriptionTextAppearance(descriptionTextAppearance); // default set in theme.
         changeSmallProgressEnabled(smallProgressEnabled); // hidden by default.
 
         changeActionButtonText(actionButtonText); // hidden by default.
         changeActionButtonTextColor(actionButtonTextColor); // white is the default color set in theme.
         changeActionButtonColor(actionButtonColor); // black is the default color set in theme.
+        changeActionButtonCornerRadius(actionButtonCornerRadius);
+        changeActionButtonTextAppearance(actionButtonTextAppearance); // default set in theme.
         changeOnActionButtonClick(this, onActionButtonClickListener); // nothing happens by default.
 
         changeProgressStrokeColor(progressStrokeColor); // black is the default color set in theme.
@@ -478,14 +553,21 @@ public class StateView extends ViewSwitcher {
 
         changeGravity(gravity); // centralized.
 
-        changeTitleFont(titleFontFilename); // uses the app theme font by default.
-        changeDescriptionFont(descriptionFontFilename); // uses the app theme font by default.
-        changeActionButtonFont(actionButtonFontFilename); // uses the app theme font by default.
-
         if (attrs != null){
             ta.recycle();
         }
 
+    }
+
+
+    /**
+     * Checks if the StateView contains more than one child.
+     * @throws IllegalStateException when more than one child view is set to StateView.
+     */
+    private void assertOnlyOneChildView() {
+        if (getChildCount() >= 2) {
+            throw new IllegalStateException("Cannot add more than 1 child view to StateView. Hint: Wrap your views in one Layout View and set it as a child of StateView.");
+        }
     }
 
 
@@ -497,6 +579,153 @@ public class StateView extends ViewSwitcher {
         cv_root.setCardBackgroundColor(backgroundColor);
     }
 
+    /**
+     * Setup content padding
+     */
+    private void changeContentPadding(int left, int top, int right, int bottom) {
+        if (cv_root == null) return;
+        cv_root.setContentPadding(left, top, right, bottom);
+    }
+
+
+    /**
+     * Setup Title
+     */
+    private void changeTitle(CharSequence title, AnimationType titleTextChangeAnimationType){
+        if (tv_title == null) return;
+
+        if (!TextUtils.isEmpty(title)) {
+            if (tv_title.getVisibility() != View.VISIBLE){
+                tv_title.setVisibility(View.VISIBLE);
+            }
+
+            switch (titleTextChangeAnimationType) {
+                case NO_ANIMATION:
+                    tv_title.setText(title);
+                    break;
+
+                case SLIDE_TO_TOP:
+                    AnimationUtils.TextView.changeTextWithSlideToTop(tv_title, title);
+                    break;
+
+                case SLIDE_TO_BOTTOM:
+                    AnimationUtils.TextView.changeTextWithSlideToBottom(tv_title, title);
+                    break;
+
+                case FADE:
+                    AnimationUtils.TextView.changeTextWithFade(tv_title, title);
+                    break;
+            }
+
+            if (iconRes == null || !mainProgressEnabled) {
+                space.setVisibility(GONE);
+
+            } else {
+                space.setVisibility(VISIBLE);
+            }
+
+        } else {
+            tv_title.setVisibility(View.GONE);
+            space.setVisibility(GONE);
+        }
+    }
+
+    private void changeTitleTextSize(int textSize, boolean fromXML) {
+        if (textSize == NO_VALUE) return;
+        if (tv_title != null) {
+            if (textSize > 0) {
+                if (fromXML) {
+                    tv_title.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+
+                } else {
+                    tv_title.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
+                }
+            } else {
+                tv_title.setTextSize(TypedValue.COMPLEX_UNIT_PX, DEFAULT_TITLE_TEXTSIZE); // default
+            }
+        }
+    }
+
+    private void changeTitleTextColor(@ColorInt int titleColor){
+        if (titleColor == NO_VALUE) return;
+        if (tv_title != null) tv_title.setTextColor(titleColor);
+    }
+
+    private void changeTitleTextAppearance(@StyleRes int titleTextAppearance) {
+        if (titleTextAppearance == NO_VALUE) return;
+        if (tv_title != null) if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            tv_title.setTextAppearance(titleTextAppearance);
+        } else {
+            tv_title.setTextAppearance(ctx, titleTextAppearance);
+        }
+    }
+
+
+
+    /**
+     * Setup Description
+     */
+    private void changeDescription(CharSequence message, AnimationType descriptionTextChangeAnimationType) {
+        if (tv_description == null) return;
+
+        if (message != null) {
+            tv_description.setVisibility(View.VISIBLE);
+
+            switch (descriptionTextChangeAnimationType) {
+                case NO_ANIMATION:
+                    tv_description.setText(message);
+                    break;
+
+                case SLIDE_TO_TOP:
+                    AnimationUtils.TextView.changeTextWithSlideToTop(tv_description, message);
+                    break;
+
+                case SLIDE_TO_BOTTOM:
+                    AnimationUtils.TextView.changeTextWithSlideToBottom(tv_description, message);
+                    break;
+
+                case FADE:
+                    AnimationUtils.TextView.changeTextWithFade(tv_description, message);
+                    break;
+            }
+
+        } else {
+            tv_description.setVisibility(View.GONE);
+        }
+    }
+
+    private void changeDescriptionTextSize(int textSize, boolean fromXML) {
+        if (textSize == NO_VALUE) return;
+        if (tv_description != null) {
+            if (textSize > 0) {
+                if (fromXML) {
+                    tv_description.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+
+                } else {
+                    tv_description.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
+                }
+            } else {
+                tv_description.setTextSize(TypedValue.COMPLEX_UNIT_PX, DEFAULT_DESCRIPTION_TEXTSIZE); // default
+            }
+        }
+    }
+
+    private void changeDescriptionTextColor(@ColorInt int descriptionColor){
+        if (descriptionColor == NO_VALUE) return;
+        if (tv_description != null) tv_description.setTextColor(descriptionColor);
+    }
+
+    private void changeDescriptionTextAppearance(@StyleRes int descriptionTextAppearance) {
+        if (descriptionTextAppearance == NO_VALUE) return;
+        if (tv_description != null) if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            tv_description.setTextAppearance(descriptionTextAppearance);
+        } else {
+            tv_description.setTextAppearance(ctx, descriptionTextAppearance);
+        }
+    }
+
+
+
 
     /**
      * Setup Action Button
@@ -505,12 +734,12 @@ public class StateView extends ViewSwitcher {
         if (btn_action == null) return;
 
         if (actionButtonText == null) {
-            btn_action.setVisibility(View.GONE);
+            changeActionButtonVisibility(false); // make the action button invisible/gone
             return;
         }
 
         btn_action.setText(actionButtonText);
-        btn_action.setVisibility(View.VISIBLE);
+        changeActionButtonVisibility(true); // make the action button visible
     }
 
     public void changeActionButtonColor(@ColorInt int actionButtonColor){
@@ -581,114 +810,31 @@ public class StateView extends ViewSwitcher {
         }
     }
 
-    // TODO
-    //    private void changeActionCornerRadius(int cornerRadius) {
-    //        if (btn_action == null) return;
-    //        btn_action.setCornerRadius(cornerRadius);
-    //    }
-
-
-
-    /**
-     * Setup Description
-     */
-    private void changeDescription(CharSequence message, AnimationType descriptionTextChangeAnimationType) {
-        if (tv_description == null) return;
-
-        if (message != null) {
-            tv_description.setVisibility(View.VISIBLE);
-
-            switch (descriptionTextChangeAnimationType) {
-                case NO_ANIMATION:
-                    tv_description.setText(message);
-                    break;
-
-                case SLIDE_TO_TOP:
-                    AnimationUtils.TextView.changeTextWithSlideToTop(tv_description, message);
-                    break;
-
-                case SLIDE_TO_BOTTOM:
-                    AnimationUtils.TextView.changeTextWithSlideToBottom(tv_description, message);
-                    break;
-
-                case FADE:
-                    AnimationUtils.TextView.changeTextWithFade(tv_description, message);
-                    break;
-            }
-
-        } else {
-            tv_description.setVisibility(View.GONE);
-        }
+    private void changeActionButtonVisibility(boolean isVisible) {
+        if (btn_action == null) return;
+        int visibility = isVisible ? View.VISIBLE : View.GONE;
+        btn_action.setVisibility(visibility);
     }
 
-    private void changeDescriptionColor(@ColorInt int descriptionColor){
-        if (descriptionColor == NO_VALUE) return;
-        if (tv_description != null) tv_description.setTextColor(descriptionColor);
-    }
-
-
-
-    /**
-     * Setup Title
-     */
-    private void changeTitle(CharSequence title, AnimationType titleTextChangeAnimationType){
-        if (tv_title == null) return;
-
-        if (!TextUtils.isEmpty(title)) {
-            if (tv_title.getVisibility() != View.VISIBLE){
-                tv_title.setVisibility(View.VISIBLE);
-            }
-
-            switch (titleTextChangeAnimationType) {
-                case NO_ANIMATION:
-                    tv_title.setText(title);
-                    break;
-
-                case SLIDE_TO_TOP:
-                    AnimationUtils.TextView.changeTextWithSlideToTop(tv_title, title);
-                    break;
-
-                case SLIDE_TO_BOTTOM:
-                    AnimationUtils.TextView.changeTextWithSlideToBottom(tv_title, title);
-                    break;
-
-                case FADE:
-                    AnimationUtils.TextView.changeTextWithFade(tv_title, title);
-                    break;
-            }
-
-            if (iconRes == null || !mainProgressEnabled) {
-                space.setVisibility(GONE);
-
+    private void changeActionButtonCornerRadius(int actionButtonCornerRadius) {
+        if (actionButtonCornerRadius == NO_VALUE) return;
+        if (btn_action != null) {
+            if (actionButtonCornerRadius > 0) {
+                btn_action.setCornerRadius(actionButtonCornerRadius);
             } else {
-                space.setVisibility(VISIBLE);
-            }
+                btn_action.setCornerRadius(DEFAULT_ACTIONBUTTON_CORNERRADIUS);
 
+            }
+        }
+    }
+
+    private void changeActionButtonTextAppearance(@StyleRes int actionButtonTextAppearance) {
+        if (actionButtonTextAppearance == NO_VALUE) return;
+        if (btn_action != null) if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            btn_action.setTextAppearance(actionButtonTextAppearance);
         } else {
-            tv_title.setVisibility(View.GONE);
-            space.setVisibility(GONE);
+            btn_action.setTextAppearance(ctx, actionButtonTextAppearance);
         }
-    }
-
-    private void changeTitleTextSize(int textSize, boolean fromXML) {
-        if (textSize == NO_VALUE) return;
-        if (tv_title != null) {
-            if (textSize > 0) {
-                if (fromXML) {
-                    tv_title.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
-
-                } else {
-                    tv_title.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
-                }
-            } else {
-                tv_title.setTextSize(TypedValue.COMPLEX_UNIT_PX, DEFAULT_TITLE_TEXTSIZE); // default
-            }
-        }
-    }
-
-    private void changeTitleColor(@ColorInt int titleColor){
-        if (titleColor == NO_VALUE) return;
-        if (tv_title != null) tv_title.setTextColor(titleColor);
     }
 
 
@@ -912,60 +1058,6 @@ public class StateView extends ViewSwitcher {
 
     private boolean isColorDark(@ColorInt int colorInt){
         return ColorUtils.calculateLuminance(colorInt) < 0.6F;
-    }
-
-
-
-
-    private void changeTitleFont(String fontFilename) {
-        if (TextUtils.isEmpty(fontFilename)) return;
-
-        try {
-            Typeface typeface = getFontFromAssets(fontFilename);
-            tv_title.setTypeface(typeface);
-
-        } catch (Exception e) {
-            Log.e("SttVw.FONTCHANGE.TITLE","Could not change the font to: `" + fontFilename + "`. Please check if the font is stored inside assts/fonts/<fontfilename>");
-        }
-    }
-    private void changeDescriptionFont(String fontFilename) {
-        if (TextUtils.isEmpty(fontFilename)) return;
-
-        try {
-            Typeface typeface = getFontFromAssets(fontFilename);
-            tv_description.setTypeface(typeface);
-
-        } catch (Exception e) {
-            Log.e("SttVw.FONTCHANGE.TITLE","Could not change the font to: `" + fontFilename + "`. Please check if the font is stored inside assts/fonts/<fontfilename>");
-        }
-    }
-    private void changeActionButtonFont(String fontFilename) {
-        if (TextUtils.isEmpty(fontFilename)) return;
-
-        try {
-            Typeface typeface = getFontFromAssets(fontFilename);
-            btn_action.setTypeface(typeface);
-
-        } catch (Exception e) {
-            Log.e("SttVw.FONTCHANGE.TITLE","Could not find the font: `" + fontFilename + "` stored inside /assets/fonts/. Please look at the file there and try again");
-        }
-    }
-
-
-     private Typeface getFontFromAssets(String fontFilename) {
-        synchronized (fontCache) {
-            if (fontCache.get(fontFilename) != null) {
-                SoftReference<Typeface> ref = fontCache.get(fontFilename);
-                if (ref != null && ref.get() != null) {
-                    return ref.get();
-                }
-            }
-
-            final String FONTFILE_DIRECTORY = "fonts"; // this is /res/fonts/<put_you_custom_.ttf_font_file_here>
-            Typeface typeface = Typeface.createFromAsset(ctx.getAssets(), FONTFILE_DIRECTORY + File.separator + fontFilename);
-            fontCache.put(fontFilename, new SoftReference<>(typeface));
-            return typeface;
-        }
     }
 
 }

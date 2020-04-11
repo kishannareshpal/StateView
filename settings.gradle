@@ -1,2 +1,2 @@
-include ':app', ':stateview2', ':stateview'
+include ':app', ':stateview'
 rootProject.name='StateView'

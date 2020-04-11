@@ -4,19 +4,10 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#6200EA"
+    android:background="@color/colorPrimary"
     android:padding="24dp"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
-<!--    <com.kishannareshpal.stateview.StateView-->
-<!--        android:id="@+id/stateview"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:stateBackgroundColor="@android:color/holo_green_light"-->
-<!--        app:stateMode="alternate"-->
-<!--        app:stateTitle="title">-->
-
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -44,41 +35,39 @@
 
 
     <com.kishannareshpal.stateview.StateView
+        style="@style/MyStateViewTheme"
+        android:id="@+id/stateview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         app:stateActionButtonText="Feed the cat"
-        app:stateDescription="Could not find any cats fact\nFeed me and i'll look again."
+        app:stateDescription="Could not find any cat fact\nFeed me and i'll look again."
         app:stateIcon="@drawable/ic_badcat"
         app:stateMode="alternate"
-        app:stateTitle="Meow!!" />
+        app:stateTitleTextAppearance="@style/MyStateTitleAppearance"
+        app:stateDescriptionTextAppearance="@style/MyDescrAppearance"
+        app:stateTitle="Meow!!">
 
-<!--    <com.kishannareshpal.stateview.StateView-->
-<!--        android:id="@+id/stateview"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:stateMode="normal">-->
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#3c3d47"
+            android:fontFamily="casual"
+            android:padding="18dp"
+            android:text="[This should never be shown!]"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/tv"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="#090018"-->
-<!--            android:fontFamily="casual"-->
-<!--            android:padding="18dp"-->
-<!--            android:text="[This should never be shown!]"-->
-<!--            android:textColor="@android:color/white"-->
-<!--            android:textSize="14sp" />-->
-<!--    </com.kishannareshpal.stateview.StateView>-->
+    </com.kishannareshpal.stateview.StateView>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginTop="12dp"
-        android:text="refresh fact"
+        android:text="Give me another fact, please!"
         android:textAllCaps="false"
         android:textColor="@android:color/black" />
 

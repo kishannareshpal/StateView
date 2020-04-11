@@ -3,19 +3,48 @@
 
     <!--  Base StateView library theme  -->
     <style name="StateViewTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">#000000</item>
-        <item name="colorPrimaryDark">#000000</item>
-        <item name="colorAccent">#000000</item>
+        <item name="colorPrimary">#000</item>
+        <item name="colorPrimaryDark">#000</item>
+        <item name="colorAccent">#fff</item>
 
-        <item name="stateBackgroundColor">#FFFFFF</item>
+        <item name="stateTitleTextAppearance">@style/StateViewTheme.TitleTextAppearance</item>
+        <item name="stateDescriptionTextAppearance">@style/StateViewTheme.DescriptionTextAppearance</item>
+        <item name="stateActionButtonTextAppearance">@style/StateViewTheme.ActionButtonTextAppearance</item>
+
+        <item name="stateActionButtonCornerRadius">64dp</item>
+
+        <item name="stateContentPaddingLeft">18dp</item>
+        <item name="stateContentPaddingTop">18dp</item>
+        <item name="stateContentPaddingRight">18dp</item>
+        <item name="stateContentPaddingBottom">18dp</item>
+
+        <item name="stateBackgroundColor">#fff</item>
         <item name="stateProgressBackgroundColor">#00000000</item>
-        <item name="stateProgressStrokeColor">#000000</item>
-        <item name="stateTitleColor">#000000</item>
-        <item name="stateTitleTextSize">24sp</item>
-        <item name="stateDescriptionColor">#3F3F3F</item>
-        <item name="stateActionButtonColor">#000000</item>
-        <item name="stateActionButtonTextColor">#FFFFFF</item>
+        <item name="stateProgressStrokeColor">#000</item>
     </style>
+
+
+    <!-- Title appearance, for setting text color, text size, font and any other text appearance -->
+    <style name="StateViewTheme.TitleTextAppearance">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <!-- Description appearance, for setting text color, text size, font and any other text appearance -->
+    <style name="StateViewTheme.DescriptionTextAppearance">
+        <item name="android:textColor">#3F3F3F</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="StateViewTheme.ActionButtonTextAppearance" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textStyle">bold</item>
+        <item name="backgroundTint">#000000</item>
+    </style>
+
 
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="StateView">
+
         <attr name="stateMode" format="enum">
             <enum name="normal" value="0"/>
             <enum name="alternate" value="1"/>
@@ -8,16 +9,10 @@
 
         <attr name="stateBackgroundColor" format="color" />
 
-        <attr name="stateIcon" format="reference"/>
-
-        <attr name="stateTitle" format="string"/>
-        <attr name="stateTitleColor" format="color"/>
-        <attr name="stateTitleTextSize" format="dimension"/>
-        <attr name="stateTitleFontFilename" format="string" />
-
-        <attr name="stateDescription" format="string"/>
-        <attr name="stateDescriptionColor" format="color"/>
-        <attr name="stateDescriptionFontFilename" format="string" />
+        <attr name="stateContentPaddingLeft" format="dimension" />
+        <attr name="stateContentPaddingTop" format="dimension" />
+        <attr name="stateContentPaddingRight" format="dimension" />
+        <attr name="stateContentPaddingBottom" format="dimension" />
 
         <attr name="stateGravity" format="enum">
             <enum name="left" value="0"/>
@@ -25,17 +20,31 @@
             <enum name="right" value="2"/>
         </attr>
 
+        <attr name="stateIcon" format="reference"/>
+
+        <attr name="stateTitle" format="string"/>
+        <attr name="stateTitleTextColor" format="color"/>
+        <attr name="stateTitleTextSize" format="dimension"/>
+        <attr name="stateTitleTextAppearance" format="reference"/>
+
+        <attr name="stateDescription" format="string"/>
+        <attr name="stateDescriptionTextColor" format="color"/>
+        <attr name="stateDescriptionTextSize" format="dimension"/>
+        <attr name="stateDescriptionTextAppearance" format="reference"/>
+
         <attr name="stateActionButtonText" format="string" />
         <attr name="stateActionButtonTextColor" format="color" />
         <attr name="stateActionButtonColor" format="color" />
-        <attr name="stateActionButtonFontFilename" format="string" />
-
-        <!-- todo    <attr name="stateActionCornerRadius" format="dimension" /> -->
+        <attr name="stateActionButtonCornerRadius" format="dimension" />
+        <attr name="stateActionButtonTextAppearance" format="reference"/>
 
         <attr name="stateMainProgressEnabled" format="boolean" />
         <attr name="stateSmallProgressEnabled" format="boolean" />
         <attr name="stateProgressStrokeColor" format="color" />
         <attr name="stateProgressBackgroundColor" format="color" />
+
+
+
 
     </declare-styleable>
 </resources>

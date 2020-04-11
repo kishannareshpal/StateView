@@ -21,7 +21,7 @@ public enum State {
         for (State state : values()) {
             if (state.id == id) return state;
         }
-        throw new IllegalArgumentException("There is no StateModes matching the id: " + id + ". Please check the StateModes values using #values() method to find all available ids.");
+        throw new IllegalArgumentException("There is no State matching the id: " + id + ". To check all possible States ids use #values().");
     }
 
     public int getId() {

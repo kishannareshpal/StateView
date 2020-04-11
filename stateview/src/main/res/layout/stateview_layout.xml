@@ -8,6 +8,10 @@
     android:gravity="center"
     android:orientation="vertical"
     android:theme="@style/StateViewTheme"
+    app:contentPaddingLeft="?attr/stateContentPaddingLeft"
+    app:contentPaddingTop="?attr/stateContentPaddingTop"
+    app:contentPaddingRight="?attr/stateContentPaddingRight"
+    app:contentPaddingBottom="?attr/stateContentPaddingBottom"
     app:cardCornerRadius="0dp"
     app:cardMaxElevation="0dp">
 
@@ -15,8 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical"
-        android:padding="18dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/ll_iconHolder"
@@ -39,7 +42,8 @@
                 android:layout_height="56dp"
                 android:layout_gravity="center"
                 android:contentDescription="A cool image for this alternate mode goes here!"
-                android:scaleType="fitXY"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
@@ -53,11 +57,9 @@
 
         <TextView
             android:id="@+id/tv_title"
+            android:textAppearance="?attr/stateTitleTextAppearance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="?attr/stateTitleColor"
-            android:textSize="?attr/stateTitleTextSize"
-            android:textStyle="bold"
             android:visibility="gone"
             tools:text="No Comments Yet"
             tools:visibility="visible" />
@@ -81,11 +83,12 @@
 
             <TextView
                 android:id="@+id/tv_description"
+                android:textAppearance="?attr/stateDescriptionTextAppearance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Be the first to share what you think!"
-                android:textColor="?attr/stateDescriptionColor" />
+                tools:text="Be the first to share what you think!" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -94,18 +97,20 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- I put this button inside this layout as a way to be able to customize the gravity programmatically
+                If there is a better implementation of this lemme know.
+             -->
+
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_action"
                 style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:id="@+id/btn_action"
+                android:textAppearance="?attr/stateActionButtonTextAppearance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:textAllCaps="false"
-                android:textColor="?attr/stateActionButtonTextColor"
-                android:textStyle="bold"
                 android:visibility="gone"
-                app:cornerRadius="64dp"
-                tools:text="Just do it!"
+                app:cornerRadius="?attr/stateActionButtonCornerRadius"
+                tools:text="A button!"
                 tools:visibility="visible" />
         </LinearLayout>
     </LinearLayout>
