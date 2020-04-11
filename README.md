@@ -737,8 +737,7 @@ public void state (State state, boolean animated)
       <td style="text-align:left"><b>state</b>
       </td>
       <td style="text-align:left">
-        <p>&lt;b&gt;&lt;/b&gt;<a href="./#enum-state"><b>State</b></a><b>:</b> the
-          state to which you want to change.</p>
+        <p><b>State:</b> the state to which you want to change.</p>
         <p>This is an enum consisting of two (2) values:</p>
         <ul>
           <li><b>NORMAL</b>: use this to view the original view.</li>
@@ -788,8 +787,8 @@ public void title (@Nullable CharSequence title, AnimationType titleTextChangeAn
       <td style="text-align:left"><b>titleTextChangeAnimationType</b>
       </td>
       <td style="text-align:left">
-        <p>&lt;b&gt;&lt;/b&gt;<a href="./#enum-animationtype"><b>AnimationType</b></a><b>: </b>the
-          animation type to use when changing the title text.
+        <p><b>AnimationType: </b>the animation type to use when changing the title
+          text.
           <br />This is an enum consisting of four (4) values:</p>
         <ul>
           <li><b>NO_ANIMATION</b>: does not animate the text change. Same as <code>title(CharSequence)</code>
