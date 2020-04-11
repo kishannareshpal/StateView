@@ -405,10 +405,10 @@ Or in your custom StateView theme:
 
 | Name | Return type | Description |
 | :--- | :--- | :--- |
-| **`getState()`** | **\`\`**[**`State`**](./#enum-state)**\`\`** | Gets the currently set state. |
+| **`getState()`** | **`State`** | Gets the currently set state. |
 | **`getTitleText()`** | **`@Nullable CharSequence`** | Gets the currently set title text. |
 | **`getDescriptionText()`** | **`@Nullable CharSequence`** | Gets the currently set description text. |
-| **`getActionButton()`** | **\`\`**[**`MaterialButton`**](https://material.io/develop/android/components/buttons/)**\`\`** | Exposes the action button. May be used to customise stuff like adding an icon. |
+| **`getActionButton()`** | **`MaterialButton`** | Exposes the action button. May be used to customise stuff like adding an icon. |
 
 #### 
 
@@ -422,7 +422,7 @@ Or in your custom StateView theme:
   </thead>
   <tbody>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#backgroundcolor"><b><code>void backgroundColor(@ColorInt int backgroundColor)</code></b></a>
+      <td style="text-align:left"><b><code>void backgroundColor(@ColorInt int backgroundColor)</code></b>
       </td>
     </tr>
     <tr>
@@ -434,94 +434,95 @@ Or in your custom StateView theme:
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#gravity"><b><code>void gravity(ComponentGravity gravity)</code></b></a><b>&lt;code&gt;&lt;/code&gt;</b>
+      <td style="text-align:left"><b><code>void gravity(ComponentGravity gravity)</code></b>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#mainicon"><b><code>void mainIcon(@Nullable @DrawableRes Integer iconRes, boolean isGif)</code></b></a>
+      <td style="text-align:left"><b><code>void mainIcon(@Nullable @DrawableRes Integer iconRes, boolean isGif)</code></b>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#mainprogressenabled"><b><code>void mainProgressEnabled(boolean mainProgressEnabled)</code></b></a>
+      <td style="text-align:left"><b><code>void mainProgressEnabled(boolean mainProgressEnabled)</code></b>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled"><b><code>void smallProgressEnabled(boolean smallProgressEnabled)</code></b></a>
+      <td style="text-align:left"><b><code>void smallProgressEnabled(boolean smallProgressEnabled)</code></b>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-1"><b><code>void progressStrokeColor(@ColorInt int progressStrokeColor)</code></b></a>
+      <td style="text-align:left"><b><code>void progressStrokeColor(@ColorInt int progressStrokeColor)</code></b>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-2"><b><code>void progressBackgroundColor(@ColorInt int progressBackgroundColor)</code></b></a>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">
-        <p><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-3"><b><code>void state(State state)</code></b></a>
-        </p>
-        <p><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-3"><b><code>void state(State state, boolean animated)</code></b></a>
-        </p>
+      <td style="text-align:left"><b><code>void progressBackgroundColor(@ColorInt int progressBackgroundColor)</code></b>
       </td>
     </tr>
     <tr>
       <td style="text-align:left">
-        <p><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-4"><b><code>void title(@Nullable CharSequence title)</code></b></a>
+        <p><b><code>void state(State state)</code></b>
         </p>
-        <p><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-4"><b><code>void title(@Nullable CharSequence title, AnimationType titleTextChangeAnimationType)</code></b></a>
+        <p><b><code>void state(State state, boolean animated)</code></b>
         </p>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-5"><b><code>void titleTextSize(int titleTextSize)</code></b></a>
+      <td style="text-align:left">
+        <p><b><code>void title(@Nullable CharSequence title)</code></b>
+        </p>
+        <p><b><code>void title(@Nullable CharSequence title, AnimationType titleTextChangeAnimationType)</code></b>
+        </p>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-6"><b><code>void titleTextColor(@ColorInt int titleTextColor)</code></b></a>
+      <td style="text-align:left"><b><code>void titleTextSize(int titleTextSize)</code></b>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-7"><b><code>void description(@Nullable CharSequence description)</code></b></a>
+      <td style="text-align:left"><b><code>void titleTextColor(@ColorInt int titleTextColor)</code></b>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left">&lt;code&gt;&lt;/code&gt;<a href="./#smallprogressenabled-7"><b><code>void description(@Nullable CharSequence description, AnimationType descriptionTextChangeAnimationType) </code></b></a>&lt;b&gt;&lt;/b&gt;</td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-9"><b><code>void descriptionTextColor(@ColorInt int descriptionTextColor)</code></b></a>
+      <td style="text-align:left"><b><code>void description(@Nullable CharSequence description)</code></b>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-9"><b><code>void descriptionTextSize(int descriptionTextSize) </code></b></a>
+      <td style="text-align:left"><b><code>void description(@Nullable CharSequence description, AnimationType descriptionTextChangeAnimationType) </code></b>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-10"><b><code>void actionButtonText(@Nullable CharSequence actionButtonText)</code></b></a>
+      <td style="text-align:left"><b><code>void descriptionTextColor(@ColorInt int descriptionTextColor)</code></b>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-12"><b><code>void actionButtonCornerRadius(int actionButtonCornerRadius)</code></b></a>
+      <td style="text-align:left"><b><code>void descriptionTextSize(int descriptionTextSize) </code></b>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-12"><b><code>void actionButtonTextColor(@ColorInt int actionButtonTextColor) </code></b></a>
+      <td style="text-align:left"><b><code>void actionButtonText(@Nullable CharSequence actionButtonText)</code></b>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-11"><b><code>void actionButtonColor(@ColorInt int actionButtonColor)</code></b></a>
+      <td style="text-align:left"><b><code>void actionButtonCornerRadius(int actionButtonCornerRadius)</code></b>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-13"><b><code>void onActionButtonClick(OnActionButtonClickListener onActionButtonClickListener)</code></b></a>
+      <td style="text-align:left"><b><code>void actionButtonTextColor(@ColorInt int actionButtonTextColor) </code></b>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-14"><b><code>void actionButtonEnabled(boolean enabled) </code></b></a>
+      <td style="text-align:left"><b><code>void actionButtonColor(@ColorInt int actionButtonColor)</code></b>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>&lt;code&gt;&lt;/code&gt;</b><a href="./#smallprogressenabled-14"><b><code>void actionButtonIsVisible(boolean isVisible) </code></b></a>
+      <td style="text-align:left"><b><code>void onActionButtonClick(OnActionButtonClickListener onActionButtonClickListener)</code></b>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b><code>void actionButtonEnabled(boolean enabled) </code></b>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b><code>void actionButtonIsVisible(boolean isVisible) </code></b>
       </td>
     </tr>
   </tbody>
@@ -598,10 +599,9 @@ public void gravity (ComponentGravity gravity)
       <td style="text-align:left"><b>gravity</b>
       </td>
       <td style="text-align:left">
-        <p>&lt;b&gt;&lt;/b&gt;<a href="./#enum-componentgravity"><b>ComponentGravity</b></a><b>: </b>the
-          gravity of title, main progress, description and button on <b><code>State#ALTERNATE</code></b> .
-          <br
-          />This is an enum consisting of three (3) values:</p>
+        <p><b>ComponentGravity: </b>the gravity of title, main progress, description
+          and button on <b><code>State#ALTERNATE</code></b> .
+          <br />This is an enum consisting of three (3) values:</p>
         <ul>
           <li><b>LEFT</b>: to set the gravity to the left (start)</li>
           <li><b>CENTER</b>: to set the gravity to the center.</li>
@@ -876,8 +876,8 @@ public void description (@Nullable CharSequence description, AnimationType descr
       <td style="text-align:left"><b>descriptionTextChangeAnimationType</b>
       </td>
       <td style="text-align:left">
-        <p>&lt;b&gt;&lt;/b&gt;<a href="./#enum-animationtype"><b>AnimationType</b></a><b>: </b>the
-          animation type to use when changing the description text.
+        <p><b>AnimationType: </b>the animation type to use when changing the description
+          text.
           <br />This is an enum consisting of four (4) values:</p>
         <ul>
           <li><b>NO_ANIMATION</b>: does not animate the text change. Same as <code>title(CharSequence)</code>
