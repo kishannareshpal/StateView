@@ -3,7 +3,7 @@
 An alternate state control for views for Android. Can be used to show that a RecyclerView or any other View has no data
 
 [![forthebadge](https://forthebadge.com/images/badges/built-for-android.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com)  
-![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)[ ![Download](https://api.bintray.com/packages/kishannareshpal/maven/stateview/images/download.svg?version=1.2)](https://bintray.com/kishannareshpal/maven/stateview/1.2/link)
+![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat) [![Download](https://api.bintray.com/packages/kishannareshpal/maven/stateview/images/download.svg?version=1.2)](https://bintray.com/kishannareshpal/maven/stateview/1.2/link)
 
 ## 💪 Installation
 
