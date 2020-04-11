@@ -3,7 +3,7 @@
 An alternate state control for views for Android. Can be used to show that a RecyclerView or any other View has no data
 
 [![forthebadge](https://forthebadge.com/images/badges/built-for-android.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com)  
-![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat) [![Download](https://api.bintray.com/packages/kishannareshpal/maven/stateview/images/download.svg?version=1.2)](https://bintray.com/kishannareshpal/maven/stateview/1.2/link)
+![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat) [![Download](https://api.bintray.com/packages/kishannareshpal/maven/stateview/images/download.svg?version=1.2.1)](https://bintray.com/kishannareshpal/maven/stateview/1.2.1/link)
 
 ## 💪 Installation
 
@@ -34,8 +34,6 @@ implementation 'com.kishannareshpal:stateview:<version>'
 
 > **NOTE: You can only add One \(1\) child view to StateView.**  
 > If you try adding more than one child view, you will get an IllegalStateException.
-
-
 
 ### Attributes
 
@@ -312,9 +310,7 @@ implementation 'com.kishannareshpal:stateview:<version>'
         </td>
     </tr>
   </tbody>
-</table>
-
-### Theming
+</table>### Theming
 
 You can overwrite `StateViewTheme` in your styles.xml to apply your customized theme for the StateView:
 
@@ -337,11 +333,9 @@ After you have your styles `MyStateViewTheme` set, use it by applying the style 
 <com.kishannareshpal.stateview.StateView
     …
     style="@style/MyStateViewTheme">
-    
+
 </com.kishannareshpal.stateview.StateView>
 ```
-
-
 
 ### TextAppearance Styling \(text color, font, size, spacing, ...\)
 
@@ -352,8 +346,6 @@ To customise the default text appearance for title, description and actionButton
 | `StateViewTheme.TitleTextAppearance` | Styles the title text. |
 | `StateViewTheme.DescriptionTextAppearance` | Styles the description text. |
 | `StateViewTheme.ActionButtonTextAppearance` | Styles the action button text. |
-
-
 
 For example, if you want to style the title, add this to your `styles.xml`
 
@@ -379,7 +371,7 @@ Now either apply it to the attribute `app:stateTitleTextAppearance` in your layo
 <com.kishannareshpal.stateview.StateView
      …
      app:stateTitleTextAppearance="@style/MyTitleTextAppearance">
-     
+
 </com.kishannareshpal.stateview.StateView>
 ```
 
@@ -393,11 +385,9 @@ Or in your custom StateView theme:
       • <item name="stateDescriptionTextAppearance">…</item>
       • <item name="stateActionButtonTextAppearance">…</item> 
      -->
-    
+
 </styles>
 ```
-
-
 
 ### Methods: List
 
@@ -409,8 +399,6 @@ Or in your custom StateView theme:
 | **`getTitleText()`** | **`@Nullable CharSequence`** | Gets the currently set title text. |
 | **`getDescriptionText()`** | **`@Nullable CharSequence`** | Gets the currently set description text. |
 | **`getActionButton()`** | **`MaterialButton`** | Exposes the action button. May be used to customise stuff like adding an icon. |
-
-#### 
 
 #### Setter
 
@@ -486,7 +474,7 @@ Or in your custom StateView theme:
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b><code>void description(@Nullable CharSequence description, AnimationType descriptionTextChangeAnimationType) </code></b>
+      <td style="text-align:left"><b><code>void description(@Nullable CharSequence description, AnimationType descriptionTextChangeAnimationType)</code></b>
       </td>
     </tr>
     <tr>
@@ -494,7 +482,7 @@ Or in your custom StateView theme:
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b><code>void descriptionTextSize(int descriptionTextSize) </code></b>
+      <td style="text-align:left"><b><code>void descriptionTextSize(int descriptionTextSize)</code></b>
       </td>
     </tr>
     <tr>
@@ -506,7 +494,7 @@ Or in your custom StateView theme:
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b><code>void actionButtonTextColor(@ColorInt int actionButtonTextColor) </code></b>
+      <td style="text-align:left"><b><code>void actionButtonTextColor(@ColorInt int actionButtonTextColor)</code></b>
       </td>
     </tr>
     <tr>
@@ -518,17 +506,15 @@ Or in your custom StateView theme:
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b><code>void actionButtonEnabled(boolean enabled) </code></b>
+      <td style="text-align:left"><b><code>void actionButtonEnabled(boolean enabled)</code></b>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b><code>void actionButtonIsVisible(boolean isVisible) </code></b>
+      <td style="text-align:left"><b><code>void actionButtonIsVisible(boolean isVisible)</code></b>
       </td>
     </tr>
   </tbody>
-</table>
-
-### Methods: Details
+</table>### Methods: Details
 
 #### `backgroundColor`
 
@@ -550,15 +536,13 @@ public void backgroundColor (@ColorInt int backgroundColor)
       <td style="text-align:left"><b>backgroundColor</b>
       </td>
       <td style="text-align:left">
-        <p><b>@ColorInt int: </b>the background color you want to set.</p>
+        <p><b>@ColorInt int:</b> the background color you want to set.</p>
         <p>Use <a href="https://developer.android.com/reference/android/support/v4/content/ContextCompat#getcolor">ContextCompat#getColor(Context, int)</a>
         </p>
       </td>
     </tr>
   </tbody>
-</table>
-
-#### `contentPadding`
+</table>#### `contentPadding`
 
 Change the content padding.
 
@@ -574,10 +558,6 @@ public void contentPadding (int padding)
 | **top** | **int:** top side padding. |
 | **right** | **int:** right side padding. |
 | **bottom** | **int:** bottom side padding. |
-
-
-
-
 
 #### `gravity`
 
@@ -599,7 +579,7 @@ public void gravity (ComponentGravity gravity)
       <td style="text-align:left"><b>gravity</b>
       </td>
       <td style="text-align:left">
-        <p><b>ComponentGravity: </b>the gravity of title, main progress, description
+        <p><b>ComponentGravity:</b> the gravity of title, main progress, description
           and button on <b><code>State#ALTERNATE</code></b> .
           <br />This is an enum consisting of three (3) values:</p>
         <ul>
@@ -610,11 +590,7 @@ public void gravity (ComponentGravity gravity)
       </td>
     </tr>
   </tbody>
-</table>
-
-
-
-#### `mainIcon`
+</table>#### `mainIcon`
 
 Change the icon.
 
@@ -626,8 +602,6 @@ public void mainIcon (@Nullable @DrawableRes Integer iconRes, boolean isGif)
 | :--- | :--- |
 | **iconRes** | **@Nullable @DrawableRes Integer:** the drawable resource identifier. If `null`, icon will be hidden. |
 | **isGif** | **boolean**: set this to true if you are passing a **.gif** file to iconRes to view it animate infinitely. |
-
-
 
 #### `mainProgressEnabled`
 
@@ -641,8 +615,6 @@ public void mainProgressEnabled (boolean mainProgressEnabled)
 | :--- | :--- |
 | **mainProgressEnabled** | **boolean:** set this to true to show the main circular progress \(this will replace the icon\). If false, the main progress will be hidden \(and be replaced with the icon if `mainIcon` is set\). |
 
-
-
 #### `smallProgressEnabled`
 
 Shows/hides the small circular progress.
@@ -654,8 +626,6 @@ public void smallProgressEnabled (boolean smallProgressEnabled)
 | Parameter | Description |
 | :--- | :--- |
 | **smallProgressEnabled** | **boolean:** set this to true to show the small circular progress in front of the description text. If false, the small progress will be hidden. |
-
-
 
 #### `progressStrokeColor` <a id="smallprogressenabled"></a>
 
@@ -683,13 +653,9 @@ public void progressStrokeColor (@ColorInt int progressStrokeColor)
       </td>
     </tr>
   </tbody>
-</table>
-
-#### `progressBackgroundColor` <a id="smallprogressenabled"></a>
+</table>#### `progressBackgroundColor` <a id="smallprogressenabled"></a>
 
 Change all circular progress background color.
-
-
 
 ```text
 public void progressBackgroundColor (@ColorInt int progressBackgroundColor)
@@ -714,9 +680,7 @@ public void progressBackgroundColor (@ColorInt int progressBackgroundColor)
       </td>
     </tr>
   </tbody>
-</table>
-
-#### `state` <a id="smallprogressenabled"></a>
+</table>#### `state` <a id="smallprogressenabled"></a>
 
 Change the state.
 
@@ -749,16 +713,11 @@ public void state (State state, boolean animated)
     <tr>
       <td style="text-align:left"><b>animated</b>
       </td>
-      <td style="text-align:left">
-        <p><b>boolean: </b>if true, show a slight fade animation on the changing
-          of states.</p>
-        <p></p>
-      </td>
+      <td style="text-align:left"><b>boolean:</b> if true, show a slight fade animation on the changing of
+        states.</td>
     </tr>
   </tbody>
-</table>
-
-#### `title` <a id="smallprogressenabled"></a>
+</table>#### `title` <a id="smallprogressenabled"></a>
 
 Change the title text.
 
@@ -787,7 +746,7 @@ public void title (@Nullable CharSequence title, AnimationType titleTextChangeAn
       <td style="text-align:left"><b>titleTextChangeAnimationType</b>
       </td>
       <td style="text-align:left">
-        <p><b>AnimationType: </b>the animation type to use when changing the title
+        <p><b>AnimationType:</b> the animation type to use when changing the title
           text.
           <br />This is an enum consisting of four (4) values:</p>
         <ul>
@@ -802,9 +761,7 @@ public void title (@Nullable CharSequence title, AnimationType titleTextChangeAn
       </td>
     </tr>
   </tbody>
-</table>
-
-#### `titleTextSize` <a id="smallprogressenabled"></a>
+</table>#### `titleTextSize` <a id="smallprogressenabled"></a>
 
 Change the title text size.
 
@@ -815,8 +772,6 @@ public void titleTextSize (int titleTextSize)
 | Parameter | Description |
 | :--- | :--- |
 | **titleTextSize** | **int:** the title text size in `sp`. |
-
-
 
 #### `titleTextColor` <a id="smallprogressenabled"></a>
 
@@ -844,9 +799,7 @@ public void titleTextColor (@ColorInt int titleTextColor)
       </td>
     </tr>
   </tbody>
-</table>
-
-#### `description` <a id="smallprogressenabled"></a>
+</table>#### `description` <a id="smallprogressenabled"></a>
 
 Change the description text.
 
@@ -875,7 +828,7 @@ public void description (@Nullable CharSequence description, AnimationType descr
       <td style="text-align:left"><b>descriptionTextChangeAnimationType</b>
       </td>
       <td style="text-align:left">
-        <p><b>AnimationType: </b>the animation type to use when changing the description
+        <p><b>AnimationType:</b> the animation type to use when changing the description
           text.
           <br />This is an enum consisting of four (4) values:</p>
         <ul>
@@ -890,9 +843,7 @@ public void description (@Nullable CharSequence description, AnimationType descr
       </td>
     </tr>
   </tbody>
-</table>
-
-#### `descriptionTextSize` <a id="smallprogressenabled"></a>
+</table>#### `descriptionTextSize` <a id="smallprogressenabled"></a>
 
 Change the description text size.
 
@@ -903,8 +854,6 @@ public void descriptionTextSize (int descriptionTextSize)
 | Parameter | Description |
 | :--- | :--- |
 | **descriptionTextSize** | **int:** the description text size in `sp`. |
-
-
 
 #### `descriptionTextColor` <a id="smallprogressenabled"></a>
 
@@ -932,11 +881,7 @@ public void descriptionTextColor (@ColorInt int descriptionTextColor)
       </td>
     </tr>
   </tbody>
-</table>
-
-
-
-#### `actionButtonText` <a id="smallprogressenabled"></a>
+</table>#### `actionButtonText` <a id="smallprogressenabled"></a>
 
 Change the action button text.
 
@@ -961,9 +906,7 @@ public void actionButtonText (@Nullable CharSequence actionButtonText)
       </td>
     </tr>
   </tbody>
-</table>
-
-#### `actionButtonColor` <a id="smallprogressenabled"></a>
+</table>#### `actionButtonColor` <a id="smallprogressenabled"></a>
 
 Change the action button background color.
 
@@ -989,9 +932,7 @@ public void actionButtonColor (@ColorInt int actionButtonColor)
       </td>
     </tr>
   </tbody>
-</table>
-
-#### `actionButtonCornerRadius` <a id="smallprogressenabled"></a>
+</table>#### `actionButtonCornerRadius` <a id="smallprogressenabled"></a>
 
 Change the action button corner radius.
 
@@ -1002,8 +943,6 @@ public void actionButtonCornerRadius (int actionButtonCornerRadiues)
 | Parameter | Description |
 | :--- | :--- |
 | **actionButtonCornerRadius** | **int:** corner radius in sp. |
-
-
 
 #### `actionButtonTextColor` <a id="smallprogressenabled"></a>
 
@@ -1031,9 +970,7 @@ public void actionButtonTextColor (@ColorInt int actionButtonTextColor)
       </td>
     </tr>
   </tbody>
-</table>
-
-#### `onActionButtonClickListener` <a id="smallprogressenabled"></a>
+</table>#### `onActionButtonClickListener` <a id="smallprogressenabled"></a>
 
 The action to execute when the button is clicked.
 
@@ -1041,31 +978,25 @@ The action to execute when the button is clicked.
 public void onActionButtonClickListener (OnActionButtonClickListener onActionButtonClickListener)
 ```
 
+| Parameter | Description |
+| :--- | :--- |
+
+
 <table>
   <thead>
     <tr>
-      <th style="text-align:left">Parameter</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left"><b>onActionButtonClickListener</b>
-      </td>
-      <td style="text-align:left">
+      <th style="text-align:left"><b>onActionButtonClickListener</b>
+      </th>
+      <th style="text-align:left">
         <p><b>OnActionButtonClickListener:</b> Interface definition for a callback
           to be invoked when the action button is clicked.</p>
-        <p></p>
         <p><b><code>void OnActionButtonClick(StateView sv, View actionBtn)</code></b>
         </p>
-      </td>
+      </th>
     </tr>
-  </tbody>
-</table>\*\*\*\*
-
-
-
-#### `actionButtonEnabled` <a id="smallprogressenabled"></a>
+  </thead>
+  <tbody></tbody>
+</table>#### `actionButtonEnabled` <a id="smallprogressenabled"></a>
 
 Change the enabled or disabled state of the action button.
 
@@ -1076,8 +1007,6 @@ public void actionButtonEnabled (boolean actionButtonEnabled)
 | Parameter | Description |
 | :--- | :--- |
 | **actionButtonEnabled** | **boolean:** if false, action button will be disabled of any touch input, and will have a visually light grey background. Otherwise, enabled. |
-
-
 
 #### `actionButtonIsVisible` <a id="smallprogressenabled"></a>
 
@@ -1100,8 +1029,6 @@ State consists of two \(2\) enum values:
 * **NORMAL**: original view.
 * **ALTERNATE**: state view alternate view with custom Title, Description and other components.
 
-
-
 ### `enum ComponentGravity`
 
 ComponentGravity consists of four \(3\) enum values:
@@ -1109,8 +1036,6 @@ ComponentGravity consists of four \(3\) enum values:
 * **LEFT**: to set the gravity to the left \(start\)
 * **CENTER**: to set the gravity to the center/middle.
 * **RIGHT**: to set the gravity to the right \(end\).
-
-
 
 ### `enum AnimationType`
 
@@ -1120,8 +1045,4 @@ AnimationType consists of four \(4\) enum values:
 * **SLIDE\_TO\_TOP**: slides the old text to top and back to normal with the new text.
 * **SLIDE\_TO\_BOTTOM**: slides the old text to bottom and back to normal with the new text.
 * **FADE**: fades out the old text and fades in the new text.
-
-
-
-
 
