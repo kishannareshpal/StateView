@@ -511,7 +511,7 @@ public class StateView extends ViewSwitcher {
             this.titleTextColor             = ta.getColor(R.styleable.StateView_stateTitleTextColor, NO_VALUE);
 
             this.description                = ta.getString(R.styleable.StateView_stateDescription);
-            this.descriptionTextSize        = ta.getDimensionPixelSize(R.styleable.StateView_stateDescriptionTextColor, NO_VALUE);
+            this.descriptionTextSize        = ta.getDimensionPixelSize(R.styleable.StateView_stateDescriptionTextSize, NO_VALUE);
             this.descriptionTextColor       = ta.getColor(R.styleable.StateView_stateDescriptionTextColor, NO_VALUE);
 
             this.actionButtonText           = ta.getString(R.styleable.StateView_stateActionButtonText);
